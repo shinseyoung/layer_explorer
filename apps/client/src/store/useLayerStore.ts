@@ -33,12 +33,16 @@ interface LayerStoreState {
   hoveredId: string | null;
   selectedId: string | null;
 
+  // 레이어 펼침(Spread) 슬라이더 상태 (0 ~ 100)
+  layerSpread: number;
+
   // Actions
   setTargetUrl: (url: string) => void;
   startVisualizing: () => Promise<void>;
   resetToHome: () => void;
   setHoveredId: (id: string | null) => void;
   setSelectedId: (id: string | null) => void;
+  setLayerSpread: (val: number) => void;
   
   // (테스트용) 임시 데이터 주입
   setMockLayers: (layers: LayerNode[]) => void;
@@ -52,6 +56,7 @@ export const useLayerStore = create<LayerStoreState>((set, get) => ({
   viewport: null,
   hoveredId: null,
   selectedId: null,
+  layerSpread: 50, // 초기 슬라이더 값 50
 
   setTargetUrl: (url) => set({ targetUrl: url }),
   
@@ -103,6 +108,7 @@ export const useLayerStore = create<LayerStoreState>((set, get) => ({
   
   // 이미 선택된 레이어를 다시 클릭하면 선택 해제(Toggle)
   setSelectedId: (id) => set({ selectedId: get().selectedId === id ? null : id }),
+  setLayerSpread: (val) => set({ layerSpread: val }),
   
   setMockLayers: (layers) => set({ layers }),
 }));
