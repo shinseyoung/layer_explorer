@@ -23,7 +23,6 @@ export default function OriginalViewer() {
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center overflow-hidden p-8" onClick={() => setPopupNodeId(null)}>
-      {/* 2D 뷰어 역시 파고든 폴더의 비율에 맞춰 동적으로 늘어나거나 줄어듦 */}
       <div 
         className="relative bg-[#111111] max-w-full max-h-full rounded-xl border border-white/10 shadow-2xl flex flex-col transition-all duration-300"
         style={{ aspectRatio: `${rootWidth} / ${rootHeight}`, width: '100%', height: 'auto' }} 
@@ -44,7 +43,6 @@ export default function OriginalViewer() {
               className="absolute top-0 left-0 w-full h-full opacity-30 pointer-events-none transition-all duration-500"
               style={{
                 backgroundImage: `url(${screenshot})`,
-                // 파고들기 시 원본 스크린샷도 비율에 맞게 크롭(Crop)되어 포커싱됨
                 backgroundSize: `${(layers[0]?.rect.width / rootWidth) * 100}% ${(layers[0]?.rect.height / rootHeight) * 100}%`,
                 backgroundPosition: `${(rootX / (layers[0]?.rect.width - rootWidth || 1)) * -100}% ${(rootY / (layers[0]?.rect.height - rootHeight || 1)) * -100}%`,
                 backgroundRepeat: 'no-repeat'
@@ -58,7 +56,6 @@ export default function OriginalViewer() {
           )}
 
           {visibleLayers.map((layer) => {
-            // 현재 파고든 루트 내부에 속하는 자식들만 필터링하여 2D 하이라이트
             if (layer.tagName === 'body' || layer.rect.x < rootX || layer.rect.y < rootY || 
                 layer.rect.x + layer.rect.width > rootX + rootWidth || layer.rect.y + layer.rect.height > rootY + rootHeight) return null;
 

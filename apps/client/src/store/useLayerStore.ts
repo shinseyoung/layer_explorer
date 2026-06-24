@@ -38,6 +38,8 @@ interface LayerStore {
   
   pushDrillDown: (layer: LayerNode) => void;
   popDrillUp: (index: number) => void;
+  
+  resetApp: () => void;
 }
 
 export const useLayerStore = create<LayerStore>((set, get) => ({
@@ -52,6 +54,17 @@ export const useLayerStore = create<LayerStore>((set, get) => ({
   layerScale: 'md',
   hiddenLayerTags: [],
   drillHistory: [],
+
+  resetApp: () => set({ 
+    appState: 'idle', 
+    layers: [], 
+    drillHistory: [], 
+    targetUrl: '', 
+    screenshot: null, 
+    selectedLayerIds: [], 
+    hoveredId: null,
+    hiddenLayerTags: []
+  }),
 
   setTargetUrl: (url) => set({ targetUrl: url }),
   

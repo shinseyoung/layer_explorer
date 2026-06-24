@@ -44,17 +44,14 @@ export default function LayerScene() {
 
   const visibleLayers = getVisibleFamily();
   
-  // ★ 동적 캔버스 크기: 현재 진입한 폴더(Root)의 실제 크기를 캔버스의 베이스 크기로 삼음
   const rootWidth = currentRoot ? Math.max(currentRoot.rect.width, 100) : 1200;
   const rootHeight = currentRoot ? Math.max(currentRoot.rect.height, 100) : 800;
   const rootX = currentRoot ? currentRoot.rect.x : 0;
   const rootY = currentRoot ? currentRoot.rect.y : 0;
   
-  // 깊이 역시 파고든 요소를 0뎁스 기준으로 보정
   const baseDepth = currentRoot ? currentRoot.depth : 0;
   const maxRelativeDepth = Math.max(...visibleLayers.map(l => l.depth - baseDepth), 0);
 
-  // ★ 비율 정규화 (세로로 긴 페이지가 화면 밖으로 뚫고 나가지 않도록 스케일 자동 조절)
   const STANDARD_W = 1200;
   const STANDARD_H = 800;
   const fitScale = Math.min(STANDARD_W / rootWidth, STANDARD_H / rootHeight);
@@ -62,7 +59,6 @@ export default function LayerScene() {
   const getScaleValue = () => {
     switch (layerScale) { case 'sm': return 0.16; case 'lg': return 0.28; case 'md': default: return 0.22; }
   };
-  // 사용자가 고른 스케일 * 화면에 맞추는 자동 비율 보정
   const scaleValue = getScaleValue() * fitScale;
 
   const GOLDEN_SCALE = 0.32;
@@ -70,7 +66,6 @@ export default function LayerScene() {
   const GOLDEN_OFFSET_Y = -1000;
   const GOLDEN_OFFSET_Z = -300;
 
-  // 타겟 위치는 표준 화면(1200x800) 기준으로 고정하여 어느 스케일에서든 우측 상단으로 도달하게 함
   const TARGET_SCREEN_X = (STANDARD_W + GOLDEN_OFFSET_X) * GOLDEN_SCALE; 
   const TARGET_SCREEN_Y = (-STANDARD_H + GOLDEN_OFFSET_Y) * GOLDEN_SCALE; 
   const TARGET_SCREEN_Z = GOLDEN_OFFSET_Z * GOLDEN_SCALE;          
@@ -114,7 +109,6 @@ export default function LayerScene() {
             const isActive = hoveredId === layer.id || selectedLayerIds.includes(layer.id);
             const spreadRatio = Math.min(layerSpread / 100, 1);
             
-            // 깊이 역시 파고든 폴더 기준으로 재조정
             const relativeDepth = layer.depth - baseDepth;
             const invDepth = maxRelativeDepth - relativeDepth;
             const depthRatio = maxRelativeDepth > 0 ? invDepth / maxRelativeDepth : 0;
@@ -124,7 +118,6 @@ export default function LayerScene() {
             const baseZ   = depthRatio * MAX_OFFSET_Z * spreadRatio;
             const targetZ = isActive ? baseZ + 50 : baseZ; 
 
-            // ★ 상대 좌표 계산: 파고든 폴더를 (0,0) 원점으로 간주하고 자식들을 배치
             const relativeX = layer.rect.x - rootX;
             const relativeY = layer.rect.y - rootY;
 
@@ -157,13 +150,11 @@ export default function LayerScene() {
                   backdropFilter: isMoving ? 'none' : 'blur(4px)',
                 }}
               >
-                {/* 스크린샷 맵핑: 파고들더라도 절대 좌표인 rect.x/y를 이용하여 배경을 동일하게 크롭 */}
                 {screenshot && (
                   <div 
                     className="absolute top-0 left-0 w-full h-full rounded-[inherit] overflow-hidden opacity-40 pointer-events-none mix-blend-screen"
                     style={{ 
                       backgroundImage: `url(${screenshot})`, 
-                      // 스크린샷은 원본 전체 사이트의 크기를 가짐
                       backgroundSize: `${layers[0]?.rect.width || 1200}px ${layers[0]?.rect.height || 800}px`, 
                       backgroundPosition: `-${layer.rect.x}px -${layer.rect.y}px`, 
                       backgroundRepeat: 'no-repeat' 
