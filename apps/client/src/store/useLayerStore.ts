@@ -1,114 +1,127 @@
 import { create } from 'zustand';
 
-// 백엔드에서 넘어올 레이어 노드 데이터 타입 정의
+export type LayerScaleSize = 'sm' | 'md' | 'lg';
+
 export interface LayerNode {
   id: string;
+  parentId: string | null;
   depth: number;
   label: string;
   tagName: string;
   className: string;
-  htmlSnippet: string;
-  cssRules: Record<string, string>;
-  rect: {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-  };
+  rect: { x: number; y: number; width: number; height: number };
   zIndex: number;
-  color?: string; // CSS 3D 시각화를 위한 임시 배경색
 }
 
-interface LayerStoreState {
-  // 앱 전체 상태 (초기 홈 화면 -> 로딩 -> 3D 뷰어)
-  appState: 'home' | 'loading' | 'view';
+interface LayerStore {
   targetUrl: string;
-  
-  // 파싱된 전체 데이터
+  appState: 'idle' | 'loading' | 'success' | 'error';
   layers: LayerNode[];
   screenshot: string | null;
-  viewport: { width: number; height: number } | null;
-  
-  // 마우스 인터랙션 상태
+
   hoveredId: string | null;
-  selectedId: string | null;
-
-  // 레이어 펼침(Spread) 슬라이더 상태 (0 ~ 100)
+  selectedLayerIds: string[];
   layerSpread: number;
+  layerScale: LayerScaleSize;
+  hiddenLayerTags: string[];
 
-  // Actions
+  drillHistory: LayerNode[];
+
   setTargetUrl: (url: string) => void;
   startVisualizing: () => Promise<void>;
-  resetToHome: () => void;
-  setHoveredId: (id: string | null) => void;
-  setSelectedId: (id: string | null) => void;
-  setLayerSpread: (val: number) => void;
-  
-  // (테스트용) 임시 데이터 주입
   setMockLayers: (layers: LayerNode[]) => void;
+  setHoveredId: (id: string | null) => void;
+  toggleLayerSelection: (id: string) => void;
+  setLayerSpread: (val: number) => void;
+  setLayerScale: (size: LayerScaleSize) => void;
+  toggleLayerFilter: (tag: string) => void;
+  
+  pushDrillDown: (layer: LayerNode) => void;
+  popDrillUp: (index: number) => void;
 }
 
-export const useLayerStore = create<LayerStoreState>((set, get) => ({
-  appState: 'home',
+export const useLayerStore = create<LayerStore>((set, get) => ({
   targetUrl: '',
+  appState: 'idle',
   layers: [],
   screenshot: null,
-  viewport: null,
+
   hoveredId: null,
-  selectedId: null,
-  layerSpread: 50, // 초기 슬라이더 값 50
+  selectedLayerIds: [], 
+  layerSpread: 50,
+  layerScale: 'md',
+  hiddenLayerTags: [],
+  drillHistory: [],
 
   setTargetUrl: (url) => set({ targetUrl: url }),
   
   startVisualizing: async () => {
-    set({ appState: 'loading' });
-    
+    const { targetUrl } = get();
+    if (!targetUrl) return;
+
+    set({ appState: 'loading', hoveredId: null, selectedLayerIds: [], hiddenLayerTags: [], drillHistory: [] });
+
     try {
-      /* // [실제 백엔드 API 연동 시 주석 해제]
       const response = await fetch('http://localhost:3001/api/parse', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url: get().targetUrl })
+        body: JSON.stringify({ url: targetUrl }),
       });
+
+      if (!response.ok) throw new Error('데이터를 가져오는데 실패했습니다.');
+
       const data = await response.json();
       
-      if (data.error) throw new Error(data.error);
+      const rootLayer = data.layers.find((l: LayerNode) => !l.parentId) || data.layers[0];
       
       set({ 
         layers: data.layers, 
-        screenshot: data.screenshot, 
-        viewport: data.viewport, 
-        appState: 'view' 
+        screenshot: data.screenshot,
+        drillHistory: rootLayer ? [rootLayer] : [], 
+        appState: 'success' 
       });
-      */
-
-      // 현재는 API가 없으므로 1.5초 후 View 화면으로 전환되는 임시 처리
-      setTimeout(() => {
-        set({ appState: 'view' });
-      }, 1500);
 
     } catch (error) {
       console.error(error);
-      alert('웹페이지 파싱 중 오류가 발생했습니다.');
-      set({ appState: 'home' });
+      set({ appState: 'error' });
+    }
+  },
+
+  setMockLayers: (layers) => {
+    const rootLayer = layers.find((l) => !l.parentId) || layers[0];
+    set({ layers, drillHistory: rootLayer ? [rootLayer] : [] });
+  },
+  
+  setHoveredId: (id) => set({ hoveredId: id }),
+  
+  toggleLayerSelection: (id) => {
+    const current = get().selectedLayerIds;
+    if (current.includes(id)) {
+      set({ selectedLayerIds: current.filter(layerId => layerId !== id) });
+    } else {
+      set({ selectedLayerIds: [...current, id] });
     }
   },
   
-  resetToHome: () => set({ 
-    appState: 'home', 
-    targetUrl: '', 
-    layers: [], 
-    screenshot: null, 
-    viewport: null, 
-    selectedId: null, 
-    hoveredId: null 
-  }),
-
-  setHoveredId: (id) => set({ hoveredId: id }),
-  
-  // 이미 선택된 레이어를 다시 클릭하면 선택 해제(Toggle)
-  setSelectedId: (id) => set({ selectedId: get().selectedId === id ? null : id }),
   setLayerSpread: (val) => set({ layerSpread: val }),
+  setLayerScale: (size) => set({ layerScale: size }),
   
-  setMockLayers: (layers) => set({ layers }),
+  toggleLayerFilter: (tag) => {
+    const current = get().hiddenLayerTags;
+    if (current.includes(tag)) {
+      set({ hiddenLayerTags: current.filter(t => t !== tag) });
+    } else {
+      set({ hiddenLayerTags: [...current, tag] });
+    }
+  },
+
+  pushDrillDown: (layer) => {
+    const current = get().drillHistory;
+    // ★ 방어 로직: 이미 현재 위치한 경로를 또 더블클릭하면 무시 (중복 쌓임 방지)
+    if (current.length > 0 && current[current.length - 1].id === layer.id) return;
+    set({ drillHistory: [...current, layer], selectedLayerIds: [], layerSpread: 50 });
+  },
+  popDrillUp: (index) => {
+    set({ drillHistory: get().drillHistory.slice(0, index + 1), selectedLayerIds: [], layerSpread: 50 });
+  }
 }));

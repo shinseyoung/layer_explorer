@@ -1,98 +1,103 @@
 import React, { useState } from 'react';
 import { useLayerStore } from '../../store/useLayerStore';
-import { X, ChevronRight } from 'lucide-react';
+import { X, ChevronRight, Image as ImageIcon } from 'lucide-react';
 
 export default function OriginalViewer() {
-  const { layers, selectedId, hoveredId, setSelectedId, setHoveredId } = useLayerStore();
-  const [showPopup, setShowPopup] = useState(false);
+  const { layers, selectedLayerIds, hiddenLayerTags, screenshot, targetUrl, drillHistory } = useLayerStore();
+  const [popupNodeId, setPopupNodeId] = useState<string | null>(null);
 
   const handleLayerClick = (id: string, e: React.MouseEvent) => {
     e.stopPropagation(); 
-    setSelectedId(id);
-    setShowPopup(true);
+    if (selectedLayerIds.includes(id)) {
+      setPopupNodeId(id);
+    }
   };
 
-  const handleBgClick = () => {
-    setSelectedId(null);
-    setShowPopup(false);
-  };
+  const currentRoot = drillHistory[drillHistory.length - 1] || layers[0];
+  const rootWidth = currentRoot ? Math.max(currentRoot.rect.width, 10) : 1200;
+  const rootHeight = currentRoot ? Math.max(currentRoot.rect.height, 10) : 800;
+  const rootX = currentRoot ? currentRoot.rect.x : 0;
+  const rootY = currentRoot ? currentRoot.rect.y : 0;
 
-  // 뷰어 비율을 와이드(1200x800)로 가정하여 화면을 꽉 채우도록 설정
-  const bodyLayer = layers.find(l => l.tagName === 'body');
-  const viewWidth = bodyLayer ? bodyLayer.rect.width : 1200;
-  const viewHeight = bodyLayer ? bodyLayer.rect.height : 800;
+  const visibleLayers = layers.filter(layer => !hiddenLayerTags.includes(layer.tagName));
 
   return (
-    // 상단 검색바의 px-8과 정확히 일치하는 좌우 여백 적용
-    <div className="w-full h-full flex flex-col items-center justify-center overflow-hidden p-8" onClick={handleBgClick}>
+    <div className="w-full h-full flex flex-col items-center justify-center overflow-hidden p-8" onClick={() => setPopupNodeId(null)}>
+      {/* 2D 뷰어 역시 파고든 폴더의 비율에 맞춰 동적으로 늘어나거나 줄어듦 */}
       <div 
-        className="relative bg-[#111111] w-full max-h-full rounded-xl border border-white/10 shadow-2xl flex flex-col transition-all duration-300"
-        style={{ aspectRatio: `${viewWidth} / ${viewHeight}` }} 
+        className="relative bg-[#111111] max-w-full max-h-full rounded-xl border border-white/10 shadow-2xl flex flex-col transition-all duration-300"
+        style={{ aspectRatio: `${rootWidth} / ${rootHeight}`, width: '100%', height: 'auto' }} 
       >
-        {/* 상단 브라우저 탭 */}
         <div className="w-full min-h-[40px] bg-[#1a1a1a] flex items-center px-4 gap-2 border-b border-white/5 rounded-t-xl z-20">
           <div className="w-3 h-3 rounded-full bg-red-500/30"></div>
           <div className="w-3 h-3 rounded-full bg-yellow-500/30"></div>
           <div className="w-3 h-3 rounded-full bg-green-500/30"></div>
-          <div className="ml-4 flex-1 max-w-sm h-6 bg-white/5 rounded-md flex items-center px-3">
-            <span className="text-[10px] text-white/30 font-mono">https://www.naver.com (Mock)</span>
+          <div className="ml-4 flex-1 max-w-sm h-6 bg-white/5 rounded-md flex items-center px-3 truncate">
+            <span className="text-[10px] text-white/50 font-mono truncate">{targetUrl || 'https://mock.website.com'}</span>
           </div>
         </div>
 
-        {/* 2D 요소 렌더링 컨테이너 (반응형 % 비율 사용) */}
-        <div className="relative flex-1 w-full rounded-b-xl overflow-hidden">
-          {layers.map((layer) => {
-            if (layer.tagName === 'body') return null;
+        <div className="relative flex-1 w-full rounded-b-xl overflow-hidden bg-black/50">
+          
+          {screenshot ? (
+            <div 
+              className="absolute top-0 left-0 w-full h-full opacity-30 pointer-events-none transition-all duration-500"
+              style={{
+                backgroundImage: `url(${screenshot})`,
+                // 파고들기 시 원본 스크린샷도 비율에 맞게 크롭(Crop)되어 포커싱됨
+                backgroundSize: `${(layers[0]?.rect.width / rootWidth) * 100}% ${(layers[0]?.rect.height / rootHeight) * 100}%`,
+                backgroundPosition: `${(rootX / (layers[0]?.rect.width - rootWidth || 1)) * -100}% ${(rootY / (layers[0]?.rect.height - rootHeight || 1)) * -100}%`,
+                backgroundRepeat: 'no-repeat'
+              }}
+            />
+          ) : (
+            <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center opacity-10 pointer-events-none">
+              <ImageIcon size={64} className="mb-4" />
+              <p className="font-mono text-xl">No Screenshot</p>
+            </div>
+          )}
 
-            const isSelected = selectedId === layer.id;
-            const isHovered = hoveredId === layer.id;
-            const isActive = isSelected || isHovered;
+          {visibleLayers.map((layer) => {
+            // 현재 파고든 루트 내부에 속하는 자식들만 필터링하여 2D 하이라이트
+            if (layer.tagName === 'body' || layer.rect.x < rootX || layer.rect.y < rootY || 
+                layer.rect.x + layer.rect.width > rootX + rootWidth || layer.rect.y + layer.rect.height > rootY + rootHeight) return null;
 
-            // 절대 크기를 비율(%)로 변환하여 창 크기에 맞춰 꽉 차게 렌더링
-            const leftPct = (layer.rect.x / viewWidth) * 100;
-            const topPct = (layer.rect.y / viewHeight) * 100;
-            const widthPct = (layer.rect.width / viewWidth) * 100;
-            const heightPct = (layer.rect.height / viewHeight) * 100;
+            const isSelected = selectedLayerIds.includes(layer.id);
+            const isPopupOpen = popupNodeId === layer.id;
+
+            const relativeX = layer.rect.x - rootX;
+            const relativeY = layer.rect.y - rootY;
+            const leftPct = (relativeX / rootWidth) * 100;
+            const topPct = (relativeY / rootHeight) * 100;
+            const widthPct = (layer.rect.width / rootWidth) * 100;
+            const heightPct = (layer.rect.height / rootHeight) * 100;
 
             return (
               <React.Fragment key={layer.id}>
                 <div
-                  onMouseEnter={() => setHoveredId(layer.id)}
-                  onMouseLeave={() => setHoveredId(null)}
                   onClick={(e) => handleLayerClick(layer.id, e)}
-                  className={`absolute transition-all duration-300 cursor-pointer ${
-                    isActive 
-                      ? 'border-2 border-[#10b981] bg-[#10b981]/20 shadow-[0_0_20px_rgba(16,185,129,0.3)] z-40' 
-                      : 'border border-dashed border-white/20 bg-white/5 hover:bg-white/10 z-10'
+                  className={`absolute transition-all duration-300 ${
+                    isSelected ? 'border-2 border-[#10b981] bg-[#10b981]/20 shadow-[0_0_20px_rgba(16,185,129,0.3)] z-40 cursor-pointer hover:bg-[#10b981]/30' 
+                               : 'border border-dashed border-white/10 bg-transparent z-10 pointer-events-none'
                   }`}
-                  style={{
-                    left: `${leftPct}%`,
-                    top: `${topPct}%`,
-                    width: `${widthPct}%`,
-                    height: `${heightPct}%`,
-                  }}
+                  style={{ left: `${leftPct}%`, top: `${topPct}%`, width: `${widthPct}%`, height: `${heightPct}%` }}
                 >
-                  {isActive && (
+                  {isSelected && (
                     <div className="absolute -top-6 left-0 bg-[#10b981] text-black text-[10px] px-2 py-0.5 font-mono font-bold rounded-t-md whitespace-nowrap">
                       {layer.label}
                     </div>
                   )}
                 </div>
 
-                {/* 2D 뷰어 팝업 복구 (선택한 영역 근처에 생성됨) */}
-                {showPopup && isSelected && (
+                {isPopupOpen && isSelected && (
                   <div
                     className="absolute z-50 w-64 bg-[#111111]/95 backdrop-blur-xl rounded-xl border border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.8)] text-white overflow-hidden"
-                    style={{
-                      // 화면 우측을 벗어나지 않도록 % 위치 조정
-                      left: `${Math.min(leftPct + widthPct + 2, 70)}%`,
-                      top: `${Math.min(topPct, 60)}%`,
-                    }}
+                    style={{ left: `${Math.min(leftPct + widthPct + 2, 70)}%`, top: `${Math.min(topPct, 60)}%` }}
                     onClick={(e) => e.stopPropagation()} 
                   >
                     <div className="flex items-center justify-between p-3 border-b border-white/5 bg-white/[0.02]">
                       <h3 className="text-[#10b981] font-mono font-bold text-sm truncate pr-2">{layer.label}</h3>
-                      <button onClick={() => setShowPopup(false)} className="text-gray-500 hover:text-white transition-colors">
+                      <button onClick={() => setPopupNodeId(null)} className="text-gray-500 hover:text-white transition-colors">
                         <X size={14} />
                       </button>
                     </div>
@@ -100,14 +105,6 @@ export default function OriginalViewer() {
                       <div className="flex justify-between"><span className="text-gray-400">요소 타입</span><span className="font-mono">{`<${layer.tagName.toLowerCase()}>`}</span></div>
                       <div className="flex justify-between"><span className="text-gray-400">클래스</span><span className="font-mono truncate max-w-[120px]">{layer.className || '-'}</span></div>
                       <div className="flex justify-between"><span className="text-gray-400">크기</span><span className="font-mono">{layer.rect.width} × {layer.rect.height}</span></div>
-                      <div className="flex justify-between"><span className="text-gray-400">z-index</span><span className="font-mono">{layer.zIndex || 'auto'}</span></div>
-                      
-                      <div className="pt-2 border-t border-white/5 mt-1">
-                        <button className="w-full flex items-center justify-between px-3 py-2 bg-white/5 hover:bg-white/10 rounded-lg transition-colors group">
-                          <span className="font-medium text-gray-300 group-hover:text-white">자세히 보기</span>
-                          <ChevronRight size={14} className="text-gray-500 group-hover:text-white" />
-                        </button>
-                      </div>
                     </div>
                   </div>
                 )}
