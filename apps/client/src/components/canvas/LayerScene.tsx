@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useLayerStore, LayerNode } from '../../store/useLayerStore';
 import { ChevronRight, Home } from 'lucide-react';
+import { useLayerStore, LayerNode } from '../../store/useLayerStore';
 
 const MOCK_LAYERS: Partial<LayerNode>[] = [
   { id: '1', parentId: null, depth: 0, label: 'body', tagName: 'body', className: '', rect: { x: 0, y: 0, width: 1200, height: 800 }, zIndex: 1 },
@@ -24,10 +24,9 @@ export default function LayerScene() {
     if (moveTimeoutRef.current) clearTimeout(moveTimeoutRef.current);
     moveTimeoutRef.current = setTimeout(() => setIsMoving(false), 150);
     return () => { if (moveTimeoutRef.current) clearTimeout(moveTimeoutRef.current); };
-  }, [layerSpread, layerScale]);
+  }, [layerSpread, layerScale, drillHistory]);
 
   const sourceLayers = layers.length > 0 ? layers : (appState === 'idle' ? MOCK_LAYERS as LayerNode[] : []);
-  
   const currentRoot = drillHistory[drillHistory.length - 1];
   
   const getVisibleFamily = () => {
@@ -74,16 +73,13 @@ export default function LayerScene() {
   const MAX_OFFSET_Y = (TARGET_SCREEN_Y / scaleValue) + rootHeight;
   const MAX_OFFSET_Z = TARGET_SCREEN_Z / scaleValue; 
 
-  const getLabelFontSize = () => {
-    switch (layerScale) { case 'sm': return 'text-6xl'; case 'lg': return 'text-4xl'; case 'md': default: return 'text-5xl'; }
-  };
-  const getSubLabelFontSize = () => {
-    switch (layerScale) { case 'sm': return 'text-4xl'; case 'lg': return 'text-2xl'; case 'md': default: return 'text-3xl'; }
-  };
+  // 역 스케일 적용 변수 (줌 인 될 때 폰트 크기가 비대칭으로 커지지 않도록)
+  const sMult = GOLDEN_SCALE / scaleValue;
 
   return (
     <div className="w-full h-full relative overflow-hidden bg-[#05050a]">
-      <div className="absolute top-6 left-6 z-50 flex items-center bg-[#111]/80 backdrop-blur-xl px-4 py-2 rounded-xl border border-white/10 shadow-xl max-w-[80%] overflow-hidden">
+
+      <div className="absolute top-6 left-6 z-50 flex items-center bg-[#111]/80 backdrop-blur-xl px-4 py-2 rounded-xl border border-white/10 shadow-xl max-w-[80%] overflow-hidden pointer-events-auto">
         <Home size={14} className="text-[#10b981] mr-2 shrink-0" />
         <div className="flex items-center overflow-x-auto custom-scrollbar whitespace-nowrap">
           {drillHistory.map((node, i) => (
@@ -126,8 +122,6 @@ export default function LayerScene() {
             const widthPct = (layer.rect.width / rootWidth) * 100;
             const heightPct = (layer.rect.height / rootHeight) * 100;
 
-            const sMult = GOLDEN_SCALE / scaleValue;
-            
             const activeShadow = isMoving ? 'none' : `-${2*sMult}px ${2*sMult}px 0 rgba(16,185,129,0.8), -${4*sMult}px ${4*sMult}px 0 rgba(16,185,129,0.6), -${6*sMult}px ${6*sMult}px 0 rgba(16,185,129,0.4), 0 ${35*sMult}px ${70*sMult}px rgba(16,185,129,0.4)`;
             const defaultShadow = isMoving ? 'none' : `-${2*sMult}px ${2*sMult}px 0 rgba(255,255,255,0.15), -${4*sMult}px ${4*sMult}px 0 rgba(255,255,255,0.1), -${6*sMult}px ${6*sMult}px 0 rgba(255,255,255,0.05), 0 ${20*sMult}px ${50*sMult}px rgba(0,0,0,0.8)`;
             const bgColor = isActive ? (isMoving ? 'rgba(16, 185, 129, 0.15)' : 'rgba(16, 185, 129, 0.08)') : (isMoving ? 'rgba(25, 25, 30, 0.8)' : 'rgba(25, 25, 30, 0.5)');
@@ -139,7 +133,7 @@ export default function LayerScene() {
                 onMouseLeave={() => setHoveredId(null)}
                 onClick={(e) => { e.stopPropagation(); toggleLayerSelection(layer.id); }}
                 onDoubleClick={(e) => { e.stopPropagation(); pushDrillDown(layer); }}
-                className={`absolute w-full h-full rounded-3xl pointer-events-auto cursor-pointer transition-all duration-[600ms] ease-[cubic-bezier(0.2,0.8,0.2,1)] ${isActive ? 'z-50' : 'z-auto'}`}
+                className={`absolute w-full h-full rounded-[inherit] pointer-events-auto cursor-pointer transition-all duration-[600ms] ease-[cubic-bezier(0.2,0.8,0.2,1)] ${isActive ? 'z-50' : 'z-auto'}`}
                 style={{
                   left: `${leftPct}%`, top: `${topPct}%`, width: `${widthPct}%`, height: `${heightPct}%`,
                   willChange: 'transform, box-shadow, background-color',
@@ -148,6 +142,7 @@ export default function LayerScene() {
                   border: isActive ? `${4*sMult}px solid rgba(16, 185, 129, 0.8)` : `${2*sMult}px solid rgba(255, 255, 255, 0.1)`,
                   boxShadow: isActive ? activeShadow : defaultShadow,
                   backdropFilter: isMoving ? 'none' : 'blur(4px)',
+                  borderRadius: `${24 * sMult}px`
                 }}
               >
                 {screenshot && (
@@ -162,12 +157,36 @@ export default function LayerScene() {
                   />
                 )}
 
-                <div className={`absolute top-8 left-8 transition-opacity duration-300 pointer-events-none flex items-center ${isActive ? 'opacity-100' : 'opacity-40'}`}>
-                  <div className={`flex items-center gap-4 bg-[#0a0a0f]/90 backdrop-blur-xl px-5 py-4 rounded-2xl border ${isActive ? 'border-[#10b981]/40 shadow-[0_0_20px_rgba(16,185,129,0.15)]' : 'border-white/10'} shadow-2xl`}>
-                    <div className={`w-3.5 h-3.5 rounded-full ${isActive ? 'bg-[#10b981] shadow-[0_0_12px_#10b981] animate-pulse' : 'bg-gray-500'}`} />
+                <div 
+                  className={`absolute transition-opacity duration-300 pointer-events-none flex items-center ${isActive ? 'opacity-100' : 'opacity-40'}`}
+                  style={{ top: `${32 * sMult}px`, left: `${32 * sMult}px` }}
+                >
+                  {/* 역 스케일 패딩 적용 */}
+                  <div 
+                    className={`flex items-center bg-[#0a0a0f]/90 backdrop-blur-xl border ${isActive ? 'border-[#10b981]/40 shadow-[0_0_20px_rgba(16,185,129,0.15)]' : 'border-white/10'} shadow-2xl`}
+                    style={{ 
+                      padding: `${16 * sMult}px ${24 * sMult}px`, 
+                      gap: `${16 * sMult}px`, 
+                      borderRadius: `${16 * sMult}px` 
+                    }}
+                  >
+                    <div 
+                      className={`rounded-full ${isActive ? 'bg-[#10b981] shadow-[0_0_12px_#10b981] animate-pulse' : 'bg-gray-500'}`} 
+                      style={{ width: `${14 * sMult}px`, height: `${14 * sMult}px` }}
+                    />
                     <div className="flex flex-col">
-                      <span className={`font-mono font-bold tracking-tight leading-none ${getLabelFontSize()} ${isActive ? 'text-[#10b981]' : 'text-white'}`}>{layer.label}</span>
-                      <span className={`text-gray-400 font-mono mt-2 leading-none ${getSubLabelFontSize()}`}>{layer.className ? `.${layer.className.split(' ')[0]}` : layer.tagName}</span>
+                      <span 
+                        className={`font-mono font-bold tracking-tight leading-none ${isActive ? 'text-[#10b981]' : 'text-white'}`}
+                        style={{ fontSize: `${40 * sMult}px` }} // 역 스케일 폰트 크기
+                      >
+                        {layer.label}
+                      </span>
+                      <span 
+                        className="text-gray-400 font-mono leading-none"
+                        style={{ fontSize: `${20 * sMult}px`, marginTop: `${8 * sMult}px` }}
+                      >
+                        {layer.className ? `.${layer.className.split(' ')[0]}` : layer.tagName}
+                      </span>
                     </div>
                   </div>
                 </div>

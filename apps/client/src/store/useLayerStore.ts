@@ -129,11 +129,19 @@ export const useLayerStore = create<LayerStore>((set, get) => ({
   },
 
   pushDrillDown: (layer) => {
-    const current = get().drillHistory;
-    // ★ 방어 로직: 이미 현재 위치한 경로를 또 더블클릭하면 무시 (중복 쌓임 방지)
+    const state = get();
+    const current = state.drillHistory;
+    
+    // 방어 로직 1: 이미 현재 위치한 경로 무시
     if (current.length > 0 && current[current.length - 1].id === layer.id) return;
+
+    // 방어 로직 2: 자식이 없는 레이어(Leaf Node)는 파고들기 무시
+    const hasChildren = state.layers.some(l => l.parentId === layer.id);
+    if (!hasChildren && state.layers.length > 0) return;
+    
     set({ drillHistory: [...current, layer], selectedLayerIds: [], layerSpread: 50 });
   },
+  
   popDrillUp: (index) => {
     set({ drillHistory: get().drillHistory.slice(0, index + 1), selectedLayerIds: [], layerSpread: 50 });
   }
