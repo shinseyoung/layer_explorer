@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { Search, Loader2, FolderTree, X } from 'lucide-react';
-import { useLayerStore, LayerScaleSize } from '../../store/useLayerStore';
+import { useLayerStore } from '../../store/useLayerStore';
 
 export default function Header() {
   const [inputValue, setInputValue] = useState('');
   const { 
     setTargetUrl, startVisualizing, appState, 
-    layers, layerSpread, setLayerSpread, 
-    selectedLayerIds, toggleLayerSelection, setHoveredId,
-    layerScale, setLayerScale,
+    layers, selectedLayerIds, toggleLayerSelection, setHoveredId,
     drillHistory, pushDrillDown
   } = useLayerStore();
   
@@ -69,31 +67,6 @@ export default function Header() {
 
         <div className="flex items-center gap-2 relative">
           
-          <div className="flex bg-[#111] rounded-xl border border-white/10 p-1 mr-1">
-            {(['sm', 'md', 'lg'] as LayerScaleSize[]).map((size) => (
-              <button
-                key={size}
-                onClick={() => setLayerScale(size)}
-                className={`px-3 py-1.5 rounded-lg text-[10px] font-mono font-bold transition-colors ${layerScale === size ? 'bg-[#10b981] text-black' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
-              >
-                {size.toUpperCase()}
-              </button>
-            ))}
-          </div>
-
-          <div className="flex items-center bg-[#111] px-4 py-2.5 rounded-xl border border-white/10">
-            <input
-              type="range"
-              min="0"
-              max="100"
-              title="Spread 레이어 간격 조절"
-              value={layerSpread}
-              onChange={(e) => setLayerSpread(Number(e.target.value))}
-              className="w-20 accent-[#10b981] cursor-pointer"
-            />
-          </div>
-
-          {/* 쓸모없는 필터 대신 트리 뷰어 강화 */}
           <div className="relative">
             <button 
               onClick={() => setIsListOpen(!isListOpen)}

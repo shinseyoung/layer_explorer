@@ -12,7 +12,7 @@ const MOCK_LAYERS: Partial<LayerNode>[] = [
 export default function LayerScene() {
   const {
     layers, hoveredId, selectedLayerIds, setHoveredId, toggleLayerSelection,
-    setMockLayers, layerSpread, hiddenLayerTags, appState, screenshot,
+    setMockLayers, layerSpread, setLayerSpread, hiddenLayerTags, appState, screenshot,
     drillHistory, pushDrillDown, popDrillUp,
   } = useLayerStore();
 
@@ -42,6 +42,13 @@ export default function LayerScene() {
     moveTimeoutRef.current = setTimeout(() => setIsMoving(false), 150);
     return () => { if (moveTimeoutRef.current) clearTimeout(moveTimeoutRef.current); };
   }, [layerSpread, drillHistory]);
+
+  const handleWheel = (e: React.WheelEvent) => {
+    // 마우스 휠 감도를 대폭 향상시켜 시원하게 조절되도록 수정
+    const sensitivity = 0.3; 
+    const delta = -(e.deltaY * sensitivity);
+    setLayerSpread(Math.max(0, Math.min(100, layerSpread + delta)));
+  };
 
   const sourceLayers = layers.length > 0 ? layers : appState === 'idle' ? (MOCK_LAYERS as LayerNode[]) : [];
   const currentRoot = drillHistory[drillHistory.length - 1];
@@ -96,7 +103,11 @@ export default function LayerScene() {
   const sMult = Math.min(Math.max(GOLDEN_SCALE / scaleValue, 1), 4);
 
   return (
-    <div ref={containerRef} className="w-full h-full relative overflow-hidden bg-[#05050a]">
+    <div 
+      ref={containerRef} 
+      className="w-full h-full relative overflow-hidden bg-[#05050a]"
+      onWheel={handleWheel}
+    >
       {/* breadcrumb */}
       <div className="absolute top-6 left-6 z-50 flex items-center bg-[#111]/80 backdrop-blur-xl px-4 py-2 rounded-xl border border-white/10 shadow-xl max-w-[80%] overflow-hidden pointer-events-auto">
         <Home size={14} className="text-[#10b981] mr-2 shrink-0" />
