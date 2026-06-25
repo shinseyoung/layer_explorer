@@ -10,10 +10,27 @@ const MOCK_LAYERS: Partial<LayerNode>[] = [
 ];
 
 export default function LayerScene() {
-  const { layers, hoveredId, selectedLayerIds, setHoveredId, toggleLayerSelection, setMockLayers, layerSpread, layerScale, hiddenLayerTags, appState, screenshot, drillHistory, pushDrillDown, popDrillUp } = useLayerStore();
+  const {
+    layers, hoveredId, selectedLayerIds, setHoveredId, toggleLayerSelection,
+    setMockLayers, layerSpread, hiddenLayerTags, appState, screenshot,
+    drillHistory, pushDrillDown, popDrillUp,
+  } = useLayerStore();
 
   const [isMoving, setIsMoving] = useState(false);
   const moveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [viewport, setViewport] = useState({ width: 289, height: 665 });
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const observer = new ResizeObserver((entries) => {
+      const { width, height } = entries[0].contentRect;
+      setViewport({ width, height });
+    });
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (layers.length === 0 && appState === 'idle') setMockLayers(MOCK_LAYERS as LayerNode[]);
@@ -24,17 +41,17 @@ export default function LayerScene() {
     if (moveTimeoutRef.current) clearTimeout(moveTimeoutRef.current);
     moveTimeoutRef.current = setTimeout(() => setIsMoving(false), 150);
     return () => { if (moveTimeoutRef.current) clearTimeout(moveTimeoutRef.current); };
-  }, [layerSpread, layerScale, drillHistory]);
+  }, [layerSpread, drillHistory]);
 
-  const sourceLayers = layers.length > 0 ? layers : (appState === 'idle' ? MOCK_LAYERS as LayerNode[] : []);
+  const sourceLayers = layers.length > 0 ? layers : appState === 'idle' ? (MOCK_LAYERS as LayerNode[]) : [];
   const currentRoot = drillHistory[drillHistory.length - 1];
-  
+
   const getVisibleFamily = () => {
     if (!currentRoot) return [];
     const getDescendants = (parentId: string, currentLevel: number): LayerNode[] => {
-      if (currentLevel >= 2) return []; 
+      if (currentLevel >= 2) return [];
       const children = sourceLayers.filter(l => l.parentId === parentId && !hiddenLayerTags.includes(l.tagName));
-      let descendants = [...children];
+      let descendants: LayerNode[] = [...children];
       children.forEach(c => { descendants = descendants.concat(getDescendants(c.id, currentLevel + 1)); });
       return descendants;
     };
@@ -42,51 +59,55 @@ export default function LayerScene() {
   };
 
   const visibleLayers = getVisibleFamily();
+  const baseDepth = currentRoot ? currentRoot.depth : 0;
   
-  const rootWidth = currentRoot ? Math.max(currentRoot.rect.width, 100) : 1200;
-  const rootHeight = currentRoot ? Math.max(currentRoot.rect.height, 100) : 800;
+  const maxVisibleDepth = visibleLayers.length > 0 ? Math.max(...visibleLayers.map(l => l.depth)) : baseDepth;
+  const totalLevels = maxVisibleDepth - baseDepth;
+
+  const rootWidth = currentRoot ? currentRoot.rect.width || 1 : 1200;
+  const rootHeight = currentRoot ? currentRoot.rect.height || 1 : 800;
   const rootX = currentRoot ? currentRoot.rect.x : 0;
   const rootY = currentRoot ? currentRoot.rect.y : 0;
+
+  const spreadBase = Math.max(rootWidth, rootHeight, 800); 
+  const TARGET_X = spreadBase * 0.4;   
+  const TARGET_Y = -spreadBase * 0.4; 
+  const MAX_OFFSET_Z = -600; 
+
+  const totalBoxWidth = rootWidth + TARGET_X;
+  const totalBoxHeight = rootHeight + Math.abs(TARGET_Y);
+
+  const paddingX = viewport.width * 0.15;
+  const paddingY = viewport.height * 0.15;
+  const availableWidth = Math.max(viewport.width - paddingX, 50);
+  const availableHeight = Math.max(viewport.height - paddingY, 50);
+
+  const scaleX = availableWidth / totalBoxWidth;
+  const scaleY = availableHeight / totalBoxHeight;
+  const scaleValue = Math.max(Math.min(scaleX, scaleY, 0.4), 0.02);
+
+  const renderedBoxWidth = totalBoxWidth * scaleValue;
+  const renderedBoxHeight = totalBoxHeight * scaleValue;
   
-  const baseDepth = currentRoot ? currentRoot.depth : 0;
-  const maxRelativeDepth = Math.max(...visibleLayers.map(l => l.depth - baseDepth), 0);
+  const leftOffset = Math.max((viewport.width - renderedBoxWidth) / 2, 20);
+  const bottomOffset = Math.max((viewport.height - renderedBoxHeight) / 2, 20);
 
-  const STANDARD_W = 1200;
-  const STANDARD_H = 800;
-  const fitScale = Math.min(STANDARD_W / rootWidth, STANDARD_H / rootHeight);
-
-  const getScaleValue = () => {
-    switch (layerScale) { case 'sm': return 0.16; case 'lg': return 0.28; case 'md': default: return 0.22; }
-  };
-  const scaleValue = getScaleValue() * fitScale;
-
-  const GOLDEN_SCALE = 0.32;
-  const GOLDEN_OFFSET_X = 320;
-  const GOLDEN_OFFSET_Y = -1000;
-  const GOLDEN_OFFSET_Z = -300;
-
-  const TARGET_SCREEN_X = (STANDARD_W + GOLDEN_OFFSET_X) * GOLDEN_SCALE; 
-  const TARGET_SCREEN_Y = (-STANDARD_H + GOLDEN_OFFSET_Y) * GOLDEN_SCALE; 
-  const TARGET_SCREEN_Z = GOLDEN_OFFSET_Z * GOLDEN_SCALE;          
-
-  const MAX_OFFSET_X = (TARGET_SCREEN_X / scaleValue) - rootWidth;
-  const MAX_OFFSET_Y = (TARGET_SCREEN_Y / scaleValue) + rootHeight;
-  const MAX_OFFSET_Z = TARGET_SCREEN_Z / scaleValue; 
-
-  // 역 스케일 적용 변수 (줌 인 될 때 폰트 크기가 비대칭으로 커지지 않도록)
-  const sMult = GOLDEN_SCALE / scaleValue;
+  const GOLDEN_SCALE = 0.22;
+  const sMult = Math.min(Math.max(GOLDEN_SCALE / scaleValue, 1), 4);
 
   return (
-    <div className="w-full h-full relative overflow-hidden bg-[#05050a]">
-
+    <div ref={containerRef} className="w-full h-full relative overflow-hidden bg-[#05050a]">
+      {/* breadcrumb */}
       <div className="absolute top-6 left-6 z-50 flex items-center bg-[#111]/80 backdrop-blur-xl px-4 py-2 rounded-xl border border-white/10 shadow-xl max-w-[80%] overflow-hidden pointer-events-auto">
         <Home size={14} className="text-[#10b981] mr-2 shrink-0" />
         <div className="flex items-center overflow-x-auto custom-scrollbar whitespace-nowrap">
           {drillHistory.map((node, i) => (
             <React.Fragment key={node.id}>
-              <button 
+              <button
                 onClick={() => popDrillUp(i)}
-                className={`text-xs font-mono font-bold transition-colors hover:text-[#10b981] ${i === drillHistory.length - 1 ? 'text-white' : 'text-gray-500'}`}
+                className={`text-xs font-mono font-bold transition-colors hover:text-[#10b981] ${
+                  i === drillHistory.length - 1 ? 'text-white' : 'text-gray-500'
+                }`}
               >
                 {node.label}
               </button>
@@ -96,23 +117,32 @@ export default function LayerScene() {
         </div>
       </div>
 
-      <div className="absolute" style={{ left: '3%', bottom: '10%', perspective: '7000px' }}>
-        <div 
-          className="relative transition-transform duration-700 ease-out"
-          style={{ width: `${rootWidth}px`, height: `${rootHeight}px`, transformStyle: 'preserve-3d', transformOrigin: 'bottom left', transform: `scale(${scaleValue}) rotateX(-3deg) rotateY(-20deg) rotateZ(0deg)` }}
+      {/* scene */}
+      <div className="absolute w-full h-full" style={{ perspective: '20000px' }}>
+        <div
+          className="absolute transition-transform duration-700 ease-out"
+          style={{
+            left: `${leftOffset}px`, 
+            bottom: `${bottomOffset}px`, 
+            width: `${rootWidth}px`,
+            height: `${rootHeight}px`,
+            transformStyle: 'preserve-3d',
+            transformOrigin: 'bottom left',
+            transform: `scale(${scaleValue}) rotateX(-20deg) rotateY(-20deg) rotateZ(0deg)`
+          }}
         >
           {visibleLayers.map((layer) => {
             const isActive = hoveredId === layer.id || selectedLayerIds.includes(layer.id);
+            
+            const invertedDepth = maxVisibleDepth - layer.depth;
+            const depthRatio = totalLevels === 0 ? 0 : invertedDepth / totalLevels;
             const spreadRatio = Math.min(layerSpread / 100, 1);
+
+            const offsetX = depthRatio * TARGET_X * spreadRatio;
+            const offsetY = depthRatio * TARGET_Y * spreadRatio;
+            const baseZ = depthRatio * MAX_OFFSET_Z * spreadRatio;
             
-            const relativeDepth = layer.depth - baseDepth;
-            const invDepth = maxRelativeDepth - relativeDepth;
-            const depthRatio = maxRelativeDepth > 0 ? invDepth / maxRelativeDepth : 0;
-            
-            const offsetX = depthRatio * MAX_OFFSET_X * spreadRatio;
-            const offsetY = depthRatio * MAX_OFFSET_Y * spreadRatio;
-            const baseZ   = depthRatio * MAX_OFFSET_Z * spreadRatio;
-            const targetZ = isActive ? baseZ + 50 : baseZ; 
+            const targetZ = isActive ? baseZ + 50 : baseZ;
 
             const relativeX = layer.rect.x - rootX;
             const relativeY = layer.rect.y - rootY;
@@ -122,9 +152,23 @@ export default function LayerScene() {
             const widthPct = (layer.rect.width / rootWidth) * 100;
             const heightPct = (layer.rect.height / rootHeight) * 100;
 
-            const activeShadow = isMoving ? 'none' : `-${2*sMult}px ${2*sMult}px 0 rgba(16,185,129,0.8), -${4*sMult}px ${4*sMult}px 0 rgba(16,185,129,0.6), -${6*sMult}px ${6*sMult}px 0 rgba(16,185,129,0.4), 0 ${35*sMult}px ${70*sMult}px rgba(16,185,129,0.4)`;
-            const defaultShadow = isMoving ? 'none' : `-${2*sMult}px ${2*sMult}px 0 rgba(255,255,255,0.15), -${4*sMult}px ${4*sMult}px 0 rgba(255,255,255,0.1), -${6*sMult}px ${6*sMult}px 0 rgba(255,255,255,0.05), 0 ${20*sMult}px ${50*sMult}px rgba(0,0,0,0.8)`;
-            const bgColor = isActive ? (isMoving ? 'rgba(16, 185, 129, 0.15)' : 'rgba(16, 185, 129, 0.08)') : (isMoving ? 'rgba(25, 25, 30, 0.8)' : 'rgba(25, 25, 30, 0.5)');
+            const activeShadow = isMoving
+              ? 'none'
+              : `-${2 * sMult}px ${2 * sMult}px 0 rgba(16,185,129,0.8),
+                 -${4 * sMult}px ${4 * sMult}px 0 rgba(16,185,129,0.6),
+                 -${6 * sMult}px ${6 * sMult}px 0 rgba(16,185,129,0.4),
+                 0 ${35 * sMult}px ${70 * sMult}px rgba(16,185,129,0.4)`;
+
+            const defaultShadow = isMoving
+              ? 'none'
+              : `-${2 * sMult}px ${2 * sMult}px 0 rgba(255,255,255,0.15),
+                 -${4 * sMult}px ${4 * sMult}px 0 rgba(255,255,255,0.1),
+                 -${6 * sMult}px ${6 * sMult}px 0 rgba(255,255,255,0.05),
+                 0 ${20 * sMult}px ${50 * sMult}px rgba(0,0,0,0.8)`;
+
+            const bgColor = isActive
+              ? isMoving ? 'rgba(16, 185, 129, 0.15)' : 'rgba(16, 185, 129, 0.08)'
+              : isMoving ? 'rgba(25, 25, 30, 0.8)' : 'rgba(25, 25, 30, 0.5)';
 
             return (
               <div
@@ -133,16 +177,23 @@ export default function LayerScene() {
                 onMouseLeave={() => setHoveredId(null)}
                 onClick={(e) => { e.stopPropagation(); toggleLayerSelection(layer.id); }}
                 onDoubleClick={(e) => { e.stopPropagation(); pushDrillDown(layer); }}
-                className={`absolute w-full h-full rounded-[inherit] pointer-events-auto cursor-pointer transition-all duration-[600ms] ease-[cubic-bezier(0.2,0.8,0.2,1)] ${isActive ? 'z-50' : 'z-auto'}`}
+                className={`absolute w-full h-full rounded-[inherit] pointer-events-auto cursor-pointer transition-all duration-[600ms] ease-[cubic-bezier(0.2,0.8,0.2,1)] ${
+                  isActive ? 'z-50' : 'z-auto'
+                }`}
                 style={{
-                  left: `${leftPct}%`, top: `${topPct}%`, width: `${widthPct}%`, height: `${heightPct}%`,
+                  left: `${leftPct}%`,
+                  top: `${topPct}%`,
+                  width: `${widthPct}%`,
+                  height: `${heightPct}%`,
                   willChange: 'transform, box-shadow, background-color',
                   transform: `translateZ(${targetZ}px) translateX(${offsetX}px) translateY(${offsetY}px)`,
                   backgroundColor: bgColor,
-                  border: isActive ? `${4*sMult}px solid rgba(16, 185, 129, 0.8)` : `${2*sMult}px solid rgba(255, 255, 255, 0.1)`,
+                  border: isActive
+                    ? `${4 * sMult}px solid rgba(16, 185, 129, 0.8)`
+                    : `${2 * sMult}px solid rgba(255, 255, 255, 0.1)`,
                   boxShadow: isActive ? activeShadow : defaultShadow,
                   backdropFilter: isMoving ? 'none' : 'blur(4px)',
-                  borderRadius: `${24 * sMult}px`
+                  borderRadius: `${24 * sMult}px`,
                 }}
               >
                 {screenshot && (
@@ -150,38 +201,45 @@ export default function LayerScene() {
                     className="absolute top-0 left-0 w-full h-full rounded-[inherit] overflow-hidden opacity-40 pointer-events-none mix-blend-screen"
                     style={{ 
                       backgroundImage: `url(${screenshot})`, 
-                      backgroundSize: `${layers[0]?.rect.width || 1200}px ${layers[0]?.rect.height || 800}px`, 
-                      backgroundPosition: `-${layer.rect.x}px -${layer.rect.y}px`, 
+                      backgroundSize: `${layers[0]?.rect.width || 1200}px ${layers[0]?.rect.height || 800}px`,
+                      backgroundPosition: `-${layer.rect.x}px -${layer.rect.y}px`,
                       backgroundRepeat: 'no-repeat' 
                     }}
                   />
                 )}
 
-                <div 
-                  className={`absolute transition-opacity duration-300 pointer-events-none flex items-center ${isActive ? 'opacity-100' : 'opacity-40'}`}
+                <div
+                  className={`absolute transition-opacity duration-300 pointer-events-none flex items-center ${
+                    isActive ? 'opacity-100' : 'opacity-40'
+                  }`}
                   style={{ top: `${32 * sMult}px`, left: `${32 * sMult}px` }}
                 >
-                  {/* 역 스케일 패딩 적용 */}
-                  <div 
-                    className={`flex items-center bg-[#0a0a0f]/90 backdrop-blur-xl border ${isActive ? 'border-[#10b981]/40 shadow-[0_0_20px_rgba(16,185,129,0.15)]' : 'border-white/10'} shadow-2xl`}
-                    style={{ 
-                      padding: `${16 * sMult}px ${24 * sMult}px`, 
-                      gap: `${16 * sMult}px`, 
-                      borderRadius: `${16 * sMult}px` 
+                  <div
+                    className={`flex items-center bg-[#0a0a0f]/90 backdrop-blur-xl border ${
+                      isActive ? 'border-[#10b981]/40 shadow-[0_0_20px_rgba(16,185,129,0.15)]' : 'border-white/10'
+                    } shadow-2xl`}
+                    style={{
+                      padding: `${16 * sMult}px ${24 * sMult}px`,
+                      gap: `${16 * sMult}px`,
+                      borderRadius: `${16 * sMult}px`,
                     }}
                   >
-                    <div 
-                      className={`rounded-full ${isActive ? 'bg-[#10b981] shadow-[0_0_12px_#10b981] animate-pulse' : 'bg-gray-500'}`} 
+                    <div
+                      className={`rounded-full ${
+                        isActive ? 'bg-[#10b981] shadow-[0_0_12px_#10b981] animate-pulse' : 'bg-gray-500'
+                      }`}
                       style={{ width: `${14 * sMult}px`, height: `${14 * sMult}px` }}
                     />
                     <div className="flex flex-col">
-                      <span 
-                        className={`font-mono font-bold tracking-tight leading-none ${isActive ? 'text-[#10b981]' : 'text-white'}`}
-                        style={{ fontSize: `${40 * sMult}px` }} // 역 스케일 폰트 크기
+                      <span
+                        className={`font-mono font-bold tracking-tight leading-none ${
+                          isActive ? 'text-[#10b981]' : 'text-white'
+                        }`}
+                        style={{ fontSize: `${40 * sMult}px` }}
                       >
                         {layer.label}
                       </span>
-                      <span 
+                      <span
                         className="text-gray-400 font-mono leading-none"
                         style={{ fontSize: `${20 * sMult}px`, marginTop: `${8 * sMult}px` }}
                       >
@@ -190,7 +248,6 @@ export default function LayerScene() {
                     </div>
                   </div>
                 </div>
-
               </div>
             );
           })}
