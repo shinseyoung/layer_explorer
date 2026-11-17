@@ -27,7 +27,7 @@ export type Sides = [number, number, number, number];
 export interface Node {
   id: string;
   parent: string | null;
-  children: string[]; // 읽는 순서(위→아래, 왼→오)
+  children: string[]; // 문서 순서 (대개 위→아래, 왼→오)
   depth: number; // 의미 트리 깊이 (root = 0, DOM 깊이 아님)
   role: Role;
   name: string; // 사람이 읽는 이름

@@ -1,0 +1,2740 @@
+{
+ "version": 1,
+ "url": "https://layer-shop.example/",
+ "title": "레이어 샵",
+ "capturedAt": "2026-11-17T00:00:00.000Z",
+ "viewport": {
+  "w": 1440,
+  "h": 900
+ },
+ "page": {
+  "w": 1440,
+  "h": 1795
+ },
+ "shot": "shot.webp",
+ "root": "n0",
+ "nodes": [
+  {
+   "id": "n0",
+   "parent": null,
+   "children": [
+    "n1",
+    "n11",
+    "n16",
+    "n43"
+   ],
+   "depth": 0,
+   "role": "page",
+   "name": "레이어 샵",
+   "nameBy": "rule",
+   "box": {
+    "x": 0,
+    "y": 0,
+    "w": 1440,
+    "h": 1795
+   },
+   "dom": {
+    "tag": "body",
+    "classes": [],
+    "selector": "body",
+    "folded": []
+   },
+   "style": {
+    "display": "",
+    "position": "",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "id": "n1",
+   "parent": "n0",
+   "children": [
+    "n2",
+    "n3",
+    "n9",
+    "n10"
+   ],
+   "depth": 1,
+   "role": "header",
+   "name": "상단 헤더",
+   "nameBy": "ai",
+   "box": {
+    "x": 0,
+    "y": 0,
+    "w": 1440,
+    "h": 80
+   },
+   "dom": {
+    "tag": "header",
+    "id": "header",
+    "classes": [],
+    "selector": "#header",
+    "folded": [
+     "div#wrap"
+    ]
+   },
+   "style": {
+    "display": "flex",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     60,
+     0,
+     60
+    ],
+    "border": [
+     0,
+     0,
+     1,
+     0
+    ],
+    "flex": {
+     "dir": "row",
+     "justify": "space-between",
+     "align": "center",
+     "gap": 0,
+     "wrap": false
+    },
+    "bg": "rgb(255, 255, 255)"
+   },
+   "desc": "로고, 메인 메뉴, 검색창, 로그인 버튼이 한 줄로 놓인 맨 위 영역"
+  },
+  {
+   "id": "n2",
+   "parent": "n1",
+   "children": [],
+   "depth": 2,
+   "role": "link",
+   "name": "로고",
+   "nameBy": "ai",
+   "box": {
+    "x": 60,
+    "y": 24,
+    "w": 145,
+    "h": 32
+   },
+   "dom": {
+    "tag": "a",
+    "classes": [
+     "logo"
+    ],
+    "selector": "#header > a",
+    "folded": []
+   },
+   "style": {
+    "display": "block",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "color": "rgb(34, 34, 34)",
+    "font": {
+     "family": "Malgun Gothic",
+     "size": 24,
+     "weight": 800,
+     "lineHeight": 29
+    }
+   },
+   "desc": "누르면 첫 화면으로 돌아가는 사이트 이름"
+  },
+  {
+   "id": "n3",
+   "parent": "n1",
+   "children": [
+    "n4",
+    "n5",
+    "n6",
+    "n7",
+    "n8"
+   ],
+   "depth": 2,
+   "role": "nav",
+   "name": "메인 메뉴",
+   "nameBy": "ai",
+   "box": {
+    "x": 450,
+    "y": 29,
+    "w": 368,
+    "h": 21
+   },
+   "dom": {
+    "tag": "ul",
+    "classes": [],
+    "selector": "#header > nav > ul",
+    "folded": [
+     "nav.gnb"
+    ]
+   },
+   "style": {
+    "display": "flex",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "flex": {
+     "dir": "row",
+     "justify": "normal",
+     "align": "normal",
+     "gap": 36,
+     "wrap": false
+    }
+   },
+   "repeat": 5,
+   "desc": "상품 분류로 이동하는 링크 5개"
+  },
+  {
+   "id": "n4",
+   "parent": "n3",
+   "children": [],
+   "depth": 3,
+   "role": "link",
+   "name": "신상품",
+   "nameBy": "rule",
+   "box": {
+    "x": 450,
+    "y": 29,
+    "w": 48,
+    "h": 21
+   },
+   "dom": {
+    "tag": "a",
+    "classes": [],
+    "selector": "#header > nav > ul > li:nth-of-type(1) > a",
+    "folded": [
+     "li"
+    ]
+   },
+   "style": {
+    "display": "inline",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "color": "rgb(34, 34, 34)",
+    "font": {
+     "family": "Malgun Gothic",
+     "size": 16,
+     "weight": 500,
+     "lineHeight": 19
+    }
+   }
+  },
+  {
+   "id": "n5",
+   "parent": "n3",
+   "children": [],
+   "depth": 3,
+   "role": "link",
+   "name": "아우터",
+   "nameBy": "rule",
+   "box": {
+    "x": 534,
+    "y": 29,
+    "w": 48,
+    "h": 21
+   },
+   "dom": {
+    "tag": "a",
+    "classes": [],
+    "selector": "#header > nav > ul > li:nth-of-type(2) > a",
+    "folded": [
+     "li"
+    ]
+   },
+   "style": {
+    "display": "inline",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "color": "rgb(34, 34, 34)",
+    "font": {
+     "family": "Malgun Gothic",
+     "size": 16,
+     "weight": 500,
+     "lineHeight": 19
+    }
+   }
+  },
+  {
+   "id": "n6",
+   "parent": "n3",
+   "children": [],
+   "depth": 3,
+   "role": "link",
+   "name": "니트",
+   "nameBy": "rule",
+   "box": {
+    "x": 618,
+    "y": 29,
+    "w": 32,
+    "h": 21
+   },
+   "dom": {
+    "tag": "a",
+    "classes": [],
+    "selector": "#header > nav > ul > li:nth-of-type(3) > a",
+    "folded": [
+     "li"
+    ]
+   },
+   "style": {
+    "display": "inline",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "color": "rgb(34, 34, 34)",
+    "font": {
+     "family": "Malgun Gothic",
+     "size": 16,
+     "weight": 500,
+     "lineHeight": 19
+    }
+   }
+  },
+  {
+   "id": "n7",
+   "parent": "n3",
+   "children": [],
+   "depth": 3,
+   "role": "link",
+   "name": "액세서리",
+   "nameBy": "rule",
+   "box": {
+    "x": 686,
+    "y": 29,
+    "w": 64,
+    "h": 21
+   },
+   "dom": {
+    "tag": "a",
+    "classes": [],
+    "selector": "#header > nav > ul > li:nth-of-type(4) > a",
+    "folded": [
+     "li"
+    ]
+   },
+   "style": {
+    "display": "inline",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "color": "rgb(34, 34, 34)",
+    "font": {
+     "family": "Malgun Gothic",
+     "size": 16,
+     "weight": 500,
+     "lineHeight": 19
+    }
+   }
+  },
+  {
+   "id": "n8",
+   "parent": "n3",
+   "children": [],
+   "depth": 3,
+   "role": "link",
+   "name": "세일",
+   "nameBy": "rule",
+   "box": {
+    "x": 786,
+    "y": 29,
+    "w": 32,
+    "h": 21
+   },
+   "dom": {
+    "tag": "a",
+    "classes": [],
+    "selector": "#header > nav > ul > li:nth-of-type(5) > a",
+    "folded": [
+     "li"
+    ]
+   },
+   "style": {
+    "display": "inline",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "color": "rgb(34, 34, 34)",
+    "font": {
+     "family": "Malgun Gothic",
+     "size": 16,
+     "weight": 500,
+     "lineHeight": 19
+    }
+   }
+  },
+  {
+   "id": "n9",
+   "parent": "n1",
+   "children": [],
+   "depth": 2,
+   "role": "input",
+   "name": "검색어를 입력하세요",
+   "nameBy": "rule",
+   "box": {
+    "x": 1063,
+    "y": 20,
+    "w": 220,
+    "h": 40
+   },
+   "dom": {
+    "tag": "input",
+    "classes": [],
+    "selector": "#header > div > input",
+    "folded": [
+     "div.util"
+    ]
+   },
+   "style": {
+    "display": "block",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     16,
+     0,
+     16
+    ],
+    "border": [
+     1,
+     1,
+     1,
+     1
+    ],
+    "bg": "rgb(255, 255, 255)",
+    "radius": 20
+   }
+  },
+  {
+   "id": "n10",
+   "parent": "n1",
+   "children": [],
+   "depth": 2,
+   "role": "button",
+   "name": "로그인",
+   "nameBy": "rule",
+   "box": {
+    "x": 1295,
+    "y": 20,
+    "w": 85,
+    "h": 40
+   },
+   "dom": {
+    "tag": "a",
+    "classes": [
+     "btn"
+    ],
+    "selector": "#header > div > a",
+    "folded": [
+     "div.util"
+    ]
+   },
+   "style": {
+    "display": "block",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     10,
+     20,
+     10,
+     20
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "bg": "rgb(34, 34, 34)",
+    "radius": 8,
+    "color": "rgb(255, 255, 255)",
+    "font": {
+     "family": "Malgun Gothic",
+     "size": 15,
+     "weight": 400,
+     "lineHeight": 18
+    }
+   }
+  },
+  {
+   "id": "n11",
+   "parent": "n0",
+   "children": [
+    "n12",
+    "n13",
+    "n14",
+    "n15"
+   ],
+   "depth": 1,
+   "role": "hero",
+   "name": "겨울 할인 배너",
+   "nameBy": "ai",
+   "box": {
+    "x": 0,
+    "y": 80,
+    "w": 1440,
+    "h": 520
+   },
+   "dom": {
+    "tag": "section",
+    "classes": [
+     "main-visual"
+    ],
+    "selector": "#container > section:nth-of-type(1)",
+    "folded": [
+     "div#wrap",
+     "div#container"
+    ]
+   },
+   "style": {
+    "display": "flex",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     120,
+     0,
+     120
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "flex": {
+     "dir": "row",
+     "justify": "space-between",
+     "align": "center",
+     "gap": 0,
+     "wrap": false
+    },
+    "bg": "rgb(243, 239, 232)"
+   },
+   "desc": "첫 화면을 채우는 큰 배너. 할인 문구, 버튼, 코트 사진"
+  },
+  {
+   "id": "n12",
+   "parent": "n11",
+   "children": [],
+   "depth": 2,
+   "role": "text",
+   "name": "겨울 신상품 최대 30% 할인",
+   "nameBy": "rule",
+   "box": {
+    "x": 120,
+    "y": 214,
+    "w": 323,
+    "h": 125
+   },
+   "dom": {
+    "tag": "h1",
+    "classes": [],
+    "selector": "#container > section:nth-of-type(1) > div > h1",
+    "folded": [
+     "div.txt"
+    ]
+   },
+   "style": {
+    "display": "block",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "color": "rgb(34, 34, 34)",
+    "font": {
+     "family": "Malgun Gothic",
+     "size": 48,
+     "weight": 700,
+     "lineHeight": 62
+    }
+   }
+  },
+  {
+   "id": "n13",
+   "parent": "n11",
+   "children": [],
+   "depth": 2,
+   "role": "text",
+   "name": "따뜻한 니트와 코트를 지금 만나보세요.",
+   "nameBy": "rule",
+   "box": {
+    "x": 120,
+    "y": 355,
+    "w": 323,
+    "h": 24
+   },
+   "dom": {
+    "tag": "p",
+    "classes": [],
+    "selector": "#container > section:nth-of-type(1) > div > p",
+    "folded": [
+     "div.txt"
+    ]
+   },
+   "style": {
+    "display": "block",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     16,
+     0,
+     32,
+     0
+    ],
+    "padding": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "color": "rgb(85, 85, 85)",
+    "font": {
+     "family": "Malgun Gothic",
+     "size": 18,
+     "weight": 400,
+     "lineHeight": 22
+    }
+   }
+  },
+  {
+   "id": "n14",
+   "parent": "n11",
+   "children": [],
+   "depth": 2,
+   "role": "button",
+   "name": "지금 보기",
+   "nameBy": "rule",
+   "box": {
+    "x": 120,
+    "y": 411,
+    "w": 138,
+    "h": 55
+   },
+   "dom": {
+    "tag": "a",
+    "classes": [
+     "btn"
+    ],
+    "selector": "#container > section:nth-of-type(1) > div > a",
+    "folded": [
+     "div.txt"
+    ]
+   },
+   "style": {
+    "display": "inline-block",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     16,
+     32,
+     16,
+     32
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "bg": "rgb(34, 34, 34)",
+    "radius": 8,
+    "color": "rgb(255, 255, 255)",
+    "font": {
+     "family": "Malgun Gothic",
+     "size": 17,
+     "weight": 400,
+     "lineHeight": 20
+    }
+   }
+  },
+  {
+   "id": "n15",
+   "parent": "n11",
+   "children": [],
+   "depth": 2,
+   "role": "image",
+   "name": "겨울 코트",
+   "nameBy": "rule",
+   "box": {
+    "x": 800,
+    "y": 140,
+    "w": 520,
+    "h": 400
+   },
+   "dom": {
+    "tag": "img",
+    "classes": [],
+    "selector": "#container > section:nth-of-type(1) > img",
+    "folded": []
+   },
+   "style": {
+    "display": "block",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "radius": 16
+   }
+  },
+  {
+   "id": "n16",
+   "parent": "n0",
+   "children": [
+    "n17",
+    "n18"
+   ],
+   "depth": 1,
+   "role": "section",
+   "name": "이번 주 신상품",
+   "nameBy": "ai",
+   "box": {
+    "x": 0,
+    "y": 600,
+    "w": 1440,
+    "h": 1007
+   },
+   "dom": {
+    "tag": "section",
+    "classes": [
+     "prd-section"
+    ],
+    "selector": "#container > section:nth-of-type(2)",
+    "folded": [
+     "div#wrap",
+     "div#container"
+    ]
+   },
+   "style": {
+    "display": "block",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     80,
+     120,
+     80,
+     120
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "desc": "새로 들어온 상품을 카드로 보여주는 구역"
+  },
+  {
+   "id": "n17",
+   "parent": "n16",
+   "children": [],
+   "depth": 2,
+   "role": "text",
+   "name": "이번 주 신상품",
+   "nameBy": "rule",
+   "box": {
+    "x": 120,
+    "y": 680,
+    "w": 1200,
+    "h": 43
+   },
+   "dom": {
+    "tag": "h2",
+    "classes": [],
+    "selector": "#container > section:nth-of-type(2) > div > h2",
+    "folded": [
+     "div.inner"
+    ]
+   },
+   "style": {
+    "display": "block",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     40,
+     0
+    ],
+    "padding": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "color": "rgb(34, 34, 34)",
+    "font": {
+     "family": "Malgun Gothic",
+     "size": 32,
+     "weight": 700,
+     "lineHeight": 38
+    }
+   }
+  },
+  {
+   "id": "n18",
+   "parent": "n16",
+   "children": [
+    "n19",
+    "n23",
+    "n27",
+    "n31",
+    "n35",
+    "n39"
+   ],
+   "depth": 2,
+   "role": "list",
+   "name": "상품 카드 목록",
+   "nameBy": "ai",
+   "box": {
+    "x": 120,
+    "y": 763,
+    "w": 1200,
+    "h": 764
+   },
+   "dom": {
+    "tag": "ul",
+    "classes": [
+     "prd-list"
+    ],
+    "selector": "#container > section:nth-of-type(2) > div > ul",
+    "folded": [
+     "div.inner"
+    ]
+   },
+   "style": {
+    "display": "grid",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "grid": {
+     "cols": "380px 380px 380px",
+     "rows": "367px 367px",
+     "gap": 30
+    }
+   },
+   "repeat": 6,
+   "desc": "3열 격자로 놓인 상품 카드 6개"
+  },
+  {
+   "id": "n19",
+   "parent": "n18",
+   "children": [
+    "n20",
+    "n21",
+    "n22"
+   ],
+   "depth": 3,
+   "role": "card",
+   "name": "카드: 울 블렌드 코트",
+   "nameBy": "rule",
+   "box": {
+    "x": 120,
+    "y": 763,
+    "w": 380,
+    "h": 367
+   },
+   "dom": {
+    "tag": "li",
+    "classes": [
+     "prd-item"
+    ],
+    "selector": "#container > section:nth-of-type(2) > div > ul > li:nth-of-type(1)",
+    "folded": []
+   },
+   "style": {
+    "display": "list-item",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "border": [
+     1,
+     1,
+     1,
+     1
+    ],
+    "bg": "rgb(255, 255, 255)",
+    "radius": 12
+   }
+  },
+  {
+   "id": "n20",
+   "parent": "n19",
+   "children": [],
+   "depth": 4,
+   "role": "image",
+   "name": "이미지",
+   "nameBy": "rule",
+   "box": {
+    "x": 121,
+    "y": 764,
+    "w": 378,
+    "h": 280
+   },
+   "dom": {
+    "tag": "img",
+    "classes": [],
+    "selector": "#container > section:nth-of-type(2) > div > ul > li:nth-of-type(1) > a > div > img",
+    "folded": [
+     "a",
+     "div.thumb"
+    ]
+   },
+   "style": {
+    "display": "block",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "id": "n21",
+   "parent": "n19",
+   "children": [],
+   "depth": 4,
+   "role": "text",
+   "name": "울 블렌드 코트",
+   "nameBy": "rule",
+   "box": {
+    "x": 121,
+    "y": 1044,
+    "w": 378,
+    "h": 44
+   },
+   "dom": {
+    "tag": "p",
+    "classes": [
+     "name"
+    ],
+    "selector": "#container > section:nth-of-type(2) > div > ul > li:nth-of-type(1) > a > p:nth-of-type(1)",
+    "folded": [
+     "a"
+    ]
+   },
+   "style": {
+    "display": "block",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     16,
+     20,
+     4,
+     20
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "color": "rgb(34, 34, 34)",
+    "font": {
+     "family": "Malgun Gothic",
+     "size": 18,
+     "weight": 400,
+     "lineHeight": 22
+    }
+   }
+  },
+  {
+   "id": "n22",
+   "parent": "n19",
+   "children": [],
+   "depth": 4,
+   "role": "text",
+   "name": "129,000원",
+   "nameBy": "rule",
+   "box": {
+    "x": 121,
+    "y": 1088,
+    "w": 378,
+    "h": 41
+   },
+   "dom": {
+    "tag": "p",
+    "classes": [
+     "price"
+    ],
+    "selector": "#container > section:nth-of-type(2) > div > ul > li:nth-of-type(1) > a > p:nth-of-type(2)",
+    "folded": [
+     "a"
+    ]
+   },
+   "style": {
+    "display": "block",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     20,
+     20,
+     20
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "color": "rgb(34, 34, 34)",
+    "font": {
+     "family": "Malgun Gothic",
+     "size": 16,
+     "weight": 700,
+     "lineHeight": 19
+    }
+   }
+  },
+  {
+   "id": "n23",
+   "parent": "n18",
+   "children": [
+    "n24",
+    "n25",
+    "n26"
+   ],
+   "depth": 3,
+   "role": "card",
+   "name": "카드: 케이블 니트",
+   "nameBy": "rule",
+   "box": {
+    "x": 530,
+    "y": 763,
+    "w": 380,
+    "h": 367
+   },
+   "dom": {
+    "tag": "li",
+    "classes": [
+     "prd-item"
+    ],
+    "selector": "#container > section:nth-of-type(2) > div > ul > li:nth-of-type(2)",
+    "folded": []
+   },
+   "style": {
+    "display": "list-item",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "border": [
+     1,
+     1,
+     1,
+     1
+    ],
+    "bg": "rgb(255, 255, 255)",
+    "radius": 12
+   }
+  },
+  {
+   "id": "n24",
+   "parent": "n23",
+   "children": [],
+   "depth": 4,
+   "role": "image",
+   "name": "이미지",
+   "nameBy": "rule",
+   "box": {
+    "x": 531,
+    "y": 764,
+    "w": 378,
+    "h": 280
+   },
+   "dom": {
+    "tag": "img",
+    "classes": [],
+    "selector": "#container > section:nth-of-type(2) > div > ul > li:nth-of-type(2) > a > div > img",
+    "folded": [
+     "a",
+     "div.thumb"
+    ]
+   },
+   "style": {
+    "display": "block",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "id": "n25",
+   "parent": "n23",
+   "children": [],
+   "depth": 4,
+   "role": "text",
+   "name": "케이블 니트",
+   "nameBy": "rule",
+   "box": {
+    "x": 531,
+    "y": 1044,
+    "w": 378,
+    "h": 44
+   },
+   "dom": {
+    "tag": "p",
+    "classes": [
+     "name"
+    ],
+    "selector": "#container > section:nth-of-type(2) > div > ul > li:nth-of-type(2) > a > p:nth-of-type(1)",
+    "folded": [
+     "a"
+    ]
+   },
+   "style": {
+    "display": "block",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     16,
+     20,
+     4,
+     20
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "color": "rgb(34, 34, 34)",
+    "font": {
+     "family": "Malgun Gothic",
+     "size": 18,
+     "weight": 400,
+     "lineHeight": 22
+    }
+   }
+  },
+  {
+   "id": "n26",
+   "parent": "n23",
+   "children": [],
+   "depth": 4,
+   "role": "text",
+   "name": "59,000원",
+   "nameBy": "rule",
+   "box": {
+    "x": 531,
+    "y": 1088,
+    "w": 378,
+    "h": 41
+   },
+   "dom": {
+    "tag": "p",
+    "classes": [
+     "price"
+    ],
+    "selector": "#container > section:nth-of-type(2) > div > ul > li:nth-of-type(2) > a > p:nth-of-type(2)",
+    "folded": [
+     "a"
+    ]
+   },
+   "style": {
+    "display": "block",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     20,
+     20,
+     20
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "color": "rgb(34, 34, 34)",
+    "font": {
+     "family": "Malgun Gothic",
+     "size": 16,
+     "weight": 700,
+     "lineHeight": 19
+    }
+   }
+  },
+  {
+   "id": "n27",
+   "parent": "n18",
+   "children": [
+    "n28",
+    "n29",
+    "n30"
+   ],
+   "depth": 3,
+   "role": "card",
+   "name": "카드: 캐시미어 머플러",
+   "nameBy": "rule",
+   "box": {
+    "x": 940,
+    "y": 763,
+    "w": 380,
+    "h": 367
+   },
+   "dom": {
+    "tag": "li",
+    "classes": [
+     "prd-item"
+    ],
+    "selector": "#container > section:nth-of-type(2) > div > ul > li:nth-of-type(3)",
+    "folded": []
+   },
+   "style": {
+    "display": "list-item",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "border": [
+     1,
+     1,
+     1,
+     1
+    ],
+    "bg": "rgb(255, 255, 255)",
+    "radius": 12
+   }
+  },
+  {
+   "id": "n28",
+   "parent": "n27",
+   "children": [],
+   "depth": 4,
+   "role": "image",
+   "name": "이미지",
+   "nameBy": "rule",
+   "box": {
+    "x": 941,
+    "y": 764,
+    "w": 378,
+    "h": 280
+   },
+   "dom": {
+    "tag": "img",
+    "classes": [],
+    "selector": "#container > section:nth-of-type(2) > div > ul > li:nth-of-type(3) > a > div > img",
+    "folded": [
+     "a",
+     "div.thumb"
+    ]
+   },
+   "style": {
+    "display": "block",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "id": "n29",
+   "parent": "n27",
+   "children": [],
+   "depth": 4,
+   "role": "text",
+   "name": "캐시미어 머플러",
+   "nameBy": "rule",
+   "box": {
+    "x": 941,
+    "y": 1044,
+    "w": 378,
+    "h": 44
+   },
+   "dom": {
+    "tag": "p",
+    "classes": [
+     "name"
+    ],
+    "selector": "#container > section:nth-of-type(2) > div > ul > li:nth-of-type(3) > a > p:nth-of-type(1)",
+    "folded": [
+     "a"
+    ]
+   },
+   "style": {
+    "display": "block",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     16,
+     20,
+     4,
+     20
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "color": "rgb(34, 34, 34)",
+    "font": {
+     "family": "Malgun Gothic",
+     "size": 18,
+     "weight": 400,
+     "lineHeight": 22
+    }
+   }
+  },
+  {
+   "id": "n30",
+   "parent": "n27",
+   "children": [],
+   "depth": 4,
+   "role": "text",
+   "name": "39,000원",
+   "nameBy": "rule",
+   "box": {
+    "x": 941,
+    "y": 1088,
+    "w": 378,
+    "h": 41
+   },
+   "dom": {
+    "tag": "p",
+    "classes": [
+     "price"
+    ],
+    "selector": "#container > section:nth-of-type(2) > div > ul > li:nth-of-type(3) > a > p:nth-of-type(2)",
+    "folded": [
+     "a"
+    ]
+   },
+   "style": {
+    "display": "block",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     20,
+     20,
+     20
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "color": "rgb(34, 34, 34)",
+    "font": {
+     "family": "Malgun Gothic",
+     "size": 16,
+     "weight": 700,
+     "lineHeight": 19
+    }
+   }
+  },
+  {
+   "id": "n31",
+   "parent": "n18",
+   "children": [
+    "n32",
+    "n33",
+    "n34"
+   ],
+   "depth": 3,
+   "role": "card",
+   "name": "카드: 패딩 점퍼",
+   "nameBy": "rule",
+   "box": {
+    "x": 120,
+    "y": 1160,
+    "w": 380,
+    "h": 367
+   },
+   "dom": {
+    "tag": "li",
+    "classes": [
+     "prd-item"
+    ],
+    "selector": "#container > section:nth-of-type(2) > div > ul > li:nth-of-type(4)",
+    "folded": []
+   },
+   "style": {
+    "display": "list-item",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "border": [
+     1,
+     1,
+     1,
+     1
+    ],
+    "bg": "rgb(255, 255, 255)",
+    "radius": 12
+   }
+  },
+  {
+   "id": "n32",
+   "parent": "n31",
+   "children": [],
+   "depth": 4,
+   "role": "image",
+   "name": "이미지",
+   "nameBy": "rule",
+   "box": {
+    "x": 121,
+    "y": 1161,
+    "w": 378,
+    "h": 280
+   },
+   "dom": {
+    "tag": "img",
+    "classes": [],
+    "selector": "#container > section:nth-of-type(2) > div > ul > li:nth-of-type(4) > a > div > img",
+    "folded": [
+     "a",
+     "div.thumb"
+    ]
+   },
+   "style": {
+    "display": "block",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "id": "n33",
+   "parent": "n31",
+   "children": [],
+   "depth": 4,
+   "role": "text",
+   "name": "패딩 점퍼",
+   "nameBy": "rule",
+   "box": {
+    "x": 121,
+    "y": 1441,
+    "w": 378,
+    "h": 44
+   },
+   "dom": {
+    "tag": "p",
+    "classes": [
+     "name"
+    ],
+    "selector": "#container > section:nth-of-type(2) > div > ul > li:nth-of-type(4) > a > p:nth-of-type(1)",
+    "folded": [
+     "a"
+    ]
+   },
+   "style": {
+    "display": "block",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     16,
+     20,
+     4,
+     20
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "color": "rgb(34, 34, 34)",
+    "font": {
+     "family": "Malgun Gothic",
+     "size": 18,
+     "weight": 400,
+     "lineHeight": 22
+    }
+   }
+  },
+  {
+   "id": "n34",
+   "parent": "n31",
+   "children": [],
+   "depth": 4,
+   "role": "text",
+   "name": "149,000원",
+   "nameBy": "rule",
+   "box": {
+    "x": 121,
+    "y": 1485,
+    "w": 378,
+    "h": 41
+   },
+   "dom": {
+    "tag": "p",
+    "classes": [
+     "price"
+    ],
+    "selector": "#container > section:nth-of-type(2) > div > ul > li:nth-of-type(4) > a > p:nth-of-type(2)",
+    "folded": [
+     "a"
+    ]
+   },
+   "style": {
+    "display": "block",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     20,
+     20,
+     20
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "color": "rgb(34, 34, 34)",
+    "font": {
+     "family": "Malgun Gothic",
+     "size": 16,
+     "weight": 700,
+     "lineHeight": 19
+    }
+   }
+  },
+  {
+   "id": "n35",
+   "parent": "n18",
+   "children": [
+    "n36",
+    "n37",
+    "n38"
+   ],
+   "depth": 3,
+   "role": "card",
+   "name": "카드: 울 비니",
+   "nameBy": "rule",
+   "box": {
+    "x": 530,
+    "y": 1160,
+    "w": 380,
+    "h": 367
+   },
+   "dom": {
+    "tag": "li",
+    "classes": [
+     "prd-item"
+    ],
+    "selector": "#container > section:nth-of-type(2) > div > ul > li:nth-of-type(5)",
+    "folded": []
+   },
+   "style": {
+    "display": "list-item",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "border": [
+     1,
+     1,
+     1,
+     1
+    ],
+    "bg": "rgb(255, 255, 255)",
+    "radius": 12
+   }
+  },
+  {
+   "id": "n36",
+   "parent": "n35",
+   "children": [],
+   "depth": 4,
+   "role": "image",
+   "name": "이미지",
+   "nameBy": "rule",
+   "box": {
+    "x": 531,
+    "y": 1161,
+    "w": 378,
+    "h": 280
+   },
+   "dom": {
+    "tag": "img",
+    "classes": [],
+    "selector": "#container > section:nth-of-type(2) > div > ul > li:nth-of-type(5) > a > div > img",
+    "folded": [
+     "a",
+     "div.thumb"
+    ]
+   },
+   "style": {
+    "display": "block",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "id": "n37",
+   "parent": "n35",
+   "children": [],
+   "depth": 4,
+   "role": "text",
+   "name": "울 비니",
+   "nameBy": "rule",
+   "box": {
+    "x": 531,
+    "y": 1441,
+    "w": 378,
+    "h": 44
+   },
+   "dom": {
+    "tag": "p",
+    "classes": [
+     "name"
+    ],
+    "selector": "#container > section:nth-of-type(2) > div > ul > li:nth-of-type(5) > a > p:nth-of-type(1)",
+    "folded": [
+     "a"
+    ]
+   },
+   "style": {
+    "display": "block",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     16,
+     20,
+     4,
+     20
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "color": "rgb(34, 34, 34)",
+    "font": {
+     "family": "Malgun Gothic",
+     "size": 18,
+     "weight": 400,
+     "lineHeight": 22
+    }
+   }
+  },
+  {
+   "id": "n38",
+   "parent": "n35",
+   "children": [],
+   "depth": 4,
+   "role": "text",
+   "name": "25,000원",
+   "nameBy": "rule",
+   "box": {
+    "x": 531,
+    "y": 1485,
+    "w": 378,
+    "h": 41
+   },
+   "dom": {
+    "tag": "p",
+    "classes": [
+     "price"
+    ],
+    "selector": "#container > section:nth-of-type(2) > div > ul > li:nth-of-type(5) > a > p:nth-of-type(2)",
+    "folded": [
+     "a"
+    ]
+   },
+   "style": {
+    "display": "block",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     20,
+     20,
+     20
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "color": "rgb(34, 34, 34)",
+    "font": {
+     "family": "Malgun Gothic",
+     "size": 16,
+     "weight": 700,
+     "lineHeight": 19
+    }
+   }
+  },
+  {
+   "id": "n39",
+   "parent": "n18",
+   "children": [
+    "n40",
+    "n41",
+    "n42"
+   ],
+   "depth": 3,
+   "role": "card",
+   "name": "카드: 가죽 장갑",
+   "nameBy": "rule",
+   "box": {
+    "x": 940,
+    "y": 1160,
+    "w": 380,
+    "h": 367
+   },
+   "dom": {
+    "tag": "li",
+    "classes": [
+     "prd-item"
+    ],
+    "selector": "#container > section:nth-of-type(2) > div > ul > li:nth-of-type(6)",
+    "folded": []
+   },
+   "style": {
+    "display": "list-item",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "border": [
+     1,
+     1,
+     1,
+     1
+    ],
+    "bg": "rgb(255, 255, 255)",
+    "radius": 12
+   }
+  },
+  {
+   "id": "n40",
+   "parent": "n39",
+   "children": [],
+   "depth": 4,
+   "role": "image",
+   "name": "이미지",
+   "nameBy": "rule",
+   "box": {
+    "x": 941,
+    "y": 1161,
+    "w": 378,
+    "h": 280
+   },
+   "dom": {
+    "tag": "img",
+    "classes": [],
+    "selector": "#container > section:nth-of-type(2) > div > ul > li:nth-of-type(6) > a > div > img",
+    "folded": [
+     "a",
+     "div.thumb"
+    ]
+   },
+   "style": {
+    "display": "block",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "id": "n41",
+   "parent": "n39",
+   "children": [],
+   "depth": 4,
+   "role": "text",
+   "name": "가죽 장갑",
+   "nameBy": "rule",
+   "box": {
+    "x": 941,
+    "y": 1441,
+    "w": 378,
+    "h": 44
+   },
+   "dom": {
+    "tag": "p",
+    "classes": [
+     "name"
+    ],
+    "selector": "#container > section:nth-of-type(2) > div > ul > li:nth-of-type(6) > a > p:nth-of-type(1)",
+    "folded": [
+     "a"
+    ]
+   },
+   "style": {
+    "display": "block",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     16,
+     20,
+     4,
+     20
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "color": "rgb(34, 34, 34)",
+    "font": {
+     "family": "Malgun Gothic",
+     "size": 18,
+     "weight": 400,
+     "lineHeight": 22
+    }
+   }
+  },
+  {
+   "id": "n42",
+   "parent": "n39",
+   "children": [],
+   "depth": 4,
+   "role": "text",
+   "name": "45,000원",
+   "nameBy": "rule",
+   "box": {
+    "x": 941,
+    "y": 1485,
+    "w": 378,
+    "h": 41
+   },
+   "dom": {
+    "tag": "p",
+    "classes": [
+     "price"
+    ],
+    "selector": "#container > section:nth-of-type(2) > div > ul > li:nth-of-type(6) > a > p:nth-of-type(2)",
+    "folded": [
+     "a"
+    ]
+   },
+   "style": {
+    "display": "block",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     20,
+     20,
+     20
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "color": "rgb(34, 34, 34)",
+    "font": {
+     "family": "Malgun Gothic",
+     "size": 16,
+     "weight": 700,
+     "lineHeight": 19
+    }
+   }
+  },
+  {
+   "id": "n43",
+   "parent": "n0",
+   "children": [
+    "n44",
+    "n49",
+    "n50"
+   ],
+   "depth": 1,
+   "role": "footer",
+   "name": "회사 정보",
+   "nameBy": "ai",
+   "box": {
+    "x": 0,
+    "y": 1607,
+    "w": 1440,
+    "h": 188
+   },
+   "dom": {
+    "tag": "footer",
+    "id": "footer",
+    "classes": [],
+    "selector": "#footer",
+    "folded": [
+     "div#wrap"
+    ]
+   },
+   "style": {
+    "display": "block",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     48,
+     120,
+     48,
+     120
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "bg": "rgb(34, 34, 34)"
+   },
+   "desc": "약관 링크와 사업자 정보가 있는 맨 아래 영역"
+  },
+  {
+   "id": "n44",
+   "parent": "n43",
+   "children": [
+    "n45",
+    "n46",
+    "n47",
+    "n48"
+   ],
+   "depth": 2,
+   "role": "list",
+   "name": "약관 링크",
+   "nameBy": "ai",
+   "box": {
+    "x": 120,
+    "y": 1655,
+    "w": 1200,
+    "h": 25
+   },
+   "dom": {
+    "tag": "ul",
+    "classes": [
+     "links"
+    ],
+    "selector": "#footer > div > ul",
+    "folded": [
+     "div.inner"
+    ]
+   },
+   "style": {
+    "display": "flex",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     16,
+     0
+    ],
+    "padding": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "flex": {
+     "dir": "row",
+     "justify": "normal",
+     "align": "normal",
+     "gap": 24,
+     "wrap": false
+    }
+   },
+   "repeat": 4,
+   "desc": "회사소개·이용약관 등 안내 페이지 링크"
+  },
+  {
+   "id": "n45",
+   "parent": "n44",
+   "children": [],
+   "depth": 3,
+   "role": "link",
+   "name": "회사소개",
+   "nameBy": "rule",
+   "box": {
+    "x": 120,
+    "y": 1658,
+    "w": 56,
+    "h": 18
+   },
+   "dom": {
+    "tag": "a",
+    "classes": [],
+    "selector": "#footer > div > ul > li:nth-of-type(1) > a",
+    "folded": [
+     "li"
+    ]
+   },
+   "style": {
+    "display": "inline",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "color": "rgb(221, 221, 221)",
+    "font": {
+     "family": "Malgun Gothic",
+     "size": 14,
+     "weight": 400,
+     "lineHeight": 25
+    }
+   }
+  },
+  {
+   "id": "n46",
+   "parent": "n44",
+   "children": [],
+   "depth": 3,
+   "role": "link",
+   "name": "이용약관",
+   "nameBy": "rule",
+   "box": {
+    "x": 200,
+    "y": 1658,
+    "w": 56,
+    "h": 18
+   },
+   "dom": {
+    "tag": "a",
+    "classes": [],
+    "selector": "#footer > div > ul > li:nth-of-type(2) > a",
+    "folded": [
+     "li"
+    ]
+   },
+   "style": {
+    "display": "inline",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "color": "rgb(221, 221, 221)",
+    "font": {
+     "family": "Malgun Gothic",
+     "size": 14,
+     "weight": 400,
+     "lineHeight": 25
+    }
+   }
+  },
+  {
+   "id": "n47",
+   "parent": "n44",
+   "children": [],
+   "depth": 3,
+   "role": "link",
+   "name": "개인정보처리방침",
+   "nameBy": "rule",
+   "box": {
+    "x": 280,
+    "y": 1658,
+    "w": 112,
+    "h": 18
+   },
+   "dom": {
+    "tag": "a",
+    "classes": [],
+    "selector": "#footer > div > ul > li:nth-of-type(3) > a",
+    "folded": [
+     "li"
+    ]
+   },
+   "style": {
+    "display": "inline",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "color": "rgb(221, 221, 221)",
+    "font": {
+     "family": "Malgun Gothic",
+     "size": 14,
+     "weight": 400,
+     "lineHeight": 25
+    }
+   }
+  },
+  {
+   "id": "n48",
+   "parent": "n44",
+   "children": [],
+   "depth": 3,
+   "role": "link",
+   "name": "고객센터",
+   "nameBy": "rule",
+   "box": {
+    "x": 416,
+    "y": 1658,
+    "w": 56,
+    "h": 18
+   },
+   "dom": {
+    "tag": "a",
+    "classes": [],
+    "selector": "#footer > div > ul > li:nth-of-type(4) > a",
+    "folded": [
+     "li"
+    ]
+   },
+   "style": {
+    "display": "inline",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "color": "rgb(221, 221, 221)",
+    "font": {
+     "family": "Malgun Gothic",
+     "size": 14,
+     "weight": 400,
+     "lineHeight": 25
+    }
+   }
+  },
+  {
+   "id": "n49",
+   "parent": "n43",
+   "children": [],
+   "depth": 2,
+   "role": "text",
+   "name": "(주)레이어샵 · 서울특별시 중구 예시로 123 · 사업자등록번호 00…",
+   "nameBy": "rule",
+   "box": {
+    "x": 120,
+    "y": 1696,
+    "w": 1200,
+    "h": 25
+   },
+   "dom": {
+    "tag": "p",
+    "classes": [],
+    "selector": "#footer > div > p:nth-of-type(1)",
+    "folded": [
+     "div.inner"
+    ]
+   },
+   "style": {
+    "display": "block",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "color": "rgb(170, 170, 170)",
+    "font": {
+     "family": "Malgun Gothic",
+     "size": 14,
+     "weight": 400,
+     "lineHeight": 25
+    }
+   }
+  },
+  {
+   "id": "n50",
+   "parent": "n43",
+   "children": [],
+   "depth": 2,
+   "role": "text",
+   "name": "© 2026 LAYER SHOP",
+   "nameBy": "rule",
+   "box": {
+    "x": 120,
+    "y": 1721,
+    "w": 1200,
+    "h": 25
+   },
+   "dom": {
+    "tag": "p",
+    "classes": [],
+    "selector": "#footer > div > p:nth-of-type(2)",
+    "folded": [
+     "div.inner"
+    ]
+   },
+   "style": {
+    "display": "block",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "color": "rgb(170, 170, 170)",
+    "font": {
+     "family": "Malgun Gothic",
+     "size": 14,
+     "weight": 400,
+     "lineHeight": 25
+    }
+   }
+  }
+ ],
+ "summary": "겨울 의류를 파는 쇼핑몰 첫 화면. 상단 메뉴, 할인 배너, 신상품 카드 6개, 회사 정보로 이루어져 있어요."
+}
