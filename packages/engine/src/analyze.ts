@@ -6,6 +6,7 @@ import puppeteer from 'puppeteer';
 import type { AnalyzeEvent, Scene } from '@layer/schema';
 import { capture, VIEWPORT } from './capture';
 import { buildStructure } from './structure';
+import { nameWithAI } from './ai';
 
 export const SITES_DIR = fileURLToPath(new URL('../../../sites/', import.meta.url));
 
@@ -39,6 +40,15 @@ export async function analyze(input: string, opts: AnalyzeOptions = {}) {
       viewport: VIEWPORT, page: { w: raw.pageW, h: raw.pageH }, shot: 'shot.webp',
       root: s.root, nodes: s.nodes,
     };
+
+    if (opts.ai !== false) {
+      emit({ type: 'stage', stage: 'naming' });
+      try {
+        await nameWithAI(browser, scene, shot);
+      } catch (e) {
+        warn(`AI 이름 붙이기 실패 → 규칙 이름 유지 (${(e as Error).message})`);
+      }
+    }
 
     const slug = slugOf(url);
     const dir = join(opts.outDir ?? SITES_DIR, slug);
