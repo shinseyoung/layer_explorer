@@ -1,0 +1,17 @@
+{
+  "name": "layer-explorer",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.8.0",
+  "scripts": {
+    "analyze": "pnpm --filter @layer/engine analyze",
+    "dev:server": "pnpm --filter @layer/dev-server dev",
+    "test": "pnpm -r test",
+    "typecheck": "pnpm -r typecheck"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}
