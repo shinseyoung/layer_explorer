@@ -88,15 +88,18 @@ interface Node {
 ```
 
 - `root`는 role `page`, box = 페이지 전체. 좌표·스크린샷 정렬의 기준.
-- 원본 DOM 전체는 저장하지 않음. `dom.folded`(접힌 감싸기 요소 목록)만 저장.
+- 원본 DOM 전체는 저장하지 않음. `dom.folded`(이 노드와 의미 부모 사이에서 접힌 감싸기 요소 목록)만 저장.
+- 엔진이 새로 만든 묶음 노드(6단계 list, 7단계 group)는 원본 DOM이 없음: `dom.tag === ""`, `selector === ""`.
+- 타입 이름은 `Node` 그대로. 뷰어에서 DOM `Node`와 겹치면 `import type { Node as SceneNode }`.
+- 진행 스트림 타입 `AnalyzeEvent`(NDJSON)도 `packages/schema`에 둠.
 
 ## 6. 엔진 파이프라인
 
 목표: 한 단계에 자식 3~9개, 사람이 알아보는 단위.
 
-1. **캡처**: viewport 1440×900. 이미지·폰트 허용, 추적기만 차단. 끝까지 스크롤해 lazy-load 유발 후 맨 위로. 애니메이션·트랜지션 정지 후 전체 페이지 webp 스크린샷. 타임아웃 시 지금까지 렌더된 상태로 진행.
+1. **캡처**: viewport 1440×900. 이미지·폰트 허용, 추적기만 차단. 끝까지 스크롤해 lazy-load 유발 후 맨 위로. 애니메이션·트랜지션 정지 후 전체 페이지 webp 스크린샷(세로 최대 16383px = webp 한계, 넘으면 거기까지만 분석). 타임아웃 시 지금까지 렌더된 상태로 진행.
 2. **수집**: 보이는 모든 요소. 제외: 4px 미만, opacity 0, display none/visibility hidden, `overflow:hidden` 조상 밖으로 잘린 것.
-3. **접기**: (자식 1개 ∧ 자식과 박스가 거의 같음 ∧ 배경/테두리/그림자 없음) → 접고 `folded`에 기록. 직접 텍스트·시각 효과 없이 자식만 통과시키는 요소도 접음.
+3. **접기**: (자식 1개 ∧ 자식과 박스가 거의 같음 ∧ 배경/테두리/그림자 없음) → 접고 `folded`에 기록. 직접 텍스트·시각 효과·시맨틱 단서(태그·ARIA·class 키워드)가 모두 없이 자식만 통과시키는 요소도 접음 (단서까지 안 보면 nav·section 같은 틀이 사라짐).
 4. **잎 분류**: 직접 텍스트 → text, img/svg/배경 이미지/video/picture → image, button·role=button·배경/테두리 있는 링크 → button, 나머지 a → link, input/select/textarea → input.
 5. **역할 추정** (우선순위): ① 시맨틱 태그·ARIA ② class/id 키워드 사전(영문 + 한국 사이트 관용어 `gnb, lnb, visual, swiper, prd` 등) ③ 위치(최상단 전체폭 → header, 최하단 전체폭 → footer, header 바로 아래 큰 이미지+큰 글씨 → hero, 뷰포트 덮는 fixed → overlay).
 6. **반복 묶기**: 형제 3개 이상이 같은 구조 서명(자식 role 순서) + 비슷한 크기 → `list`(repeat=n), 항목은 `item`/`card`.

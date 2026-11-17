@@ -1,0 +1,16 @@
+{
+  "name": "@layer/engine",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "scripts": {
+    "analyze": "tsx src/cli.ts",
+    "test": "tsx --test test/*.test.ts",
+    "typecheck": "tsc -p ."
+  },
+  "dependencies": {
+    "@layer/schema": "workspace:*",
+    "puppeteer": "^25.17.0"
+  }
+}
