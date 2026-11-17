@@ -37,6 +37,9 @@ window.__le = {
     const SKIP = new Set(['script', 'style', 'meta', 'head', 'noscript', 'link', 'title', 'base', 'template', 'br', 'wbr', 'source', 'track']);
     const BLOCKISH = /^(block|flex|grid|list-item|table|flow-root)/;
     const INTERACTIVE = new Set(['a', 'button', 'label', 'summary']);
+    // 글을 담는 태그: 안에 글자용 태그만 있으면 display와 상관없이 글 하나 (글자마다 span으로 쪼갠 애니메이션 등)
+    const TEXTISH = new Set(['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'a', 'button', 'label', 'summary', 'dt', 'dd', 'figcaption', 'blockquote']);
+    const PHRASING = new Set(['span', 'b', 'strong', 'em', 'i', 'u', 's', 'small', 'mark', 'sup', 'sub', 'br', 'wbr', 'abbr', 'time', 'code', 'kbd', 'q', 'cite', 'font', 'del', 'ins']);
     const px = (v) => Math.round(parseFloat(v) || 0);
     const transparent = (c) => !c || c === 'transparent' || /rgba\([^)]*,\s*0\)$/.test(c);
 
@@ -58,15 +61,28 @@ window.__le = {
     const visibleBox = (el, cs) => {
       let box = clipTo(rectOf(el), { x: 0, y: 0, w: pageW, h: pageH });
       if (cs.position === 'fixed') return box;
-      for (let a = el.parentElement; a && a !== document.documentElement; a = a.parentElement) {
+      // body·html의 overflow는 브라우저 창 스크롤로 넘어가므로 자르지 않음
+      for (let a = el.parentElement; a && a !== document.body && a !== document.documentElement; a = a.parentElement) {
         const acs = getComputedStyle(a);
         if (acs.overflowX !== 'visible' || acs.overflowY !== 'visible') box = clipTo(box, rectOf(a));
         if (acs.position === 'fixed') break;
       }
       return box;
     };
-    const visual = (cs) =>
-      !transparent(cs.backgroundColor) || cs.backgroundImage !== 'none' || cs.boxShadow !== 'none' ||
+    // 뒤에 깔린 배경색 (부모를 따라 올라가 처음 칠해진 색, 없으면 흰색)
+    const bgs = new Map();
+    const backdrop = (el) => {
+      if (!el || el === document.documentElement.parentNode) return 'rgb(255, 255, 255)';
+      if (bgs.has(el)) return bgs.get(el);
+      const c = getComputedStyle(el).backgroundColor;
+      const v = transparent(c) ? backdrop(el.parentElement) : c;
+      bgs.set(el, v);
+      return v;
+    };
+    // 배경색이 뒤 배경과 같으면(흰 위에 흰) 시각 효과로 치지 않음
+    const visual = (el, cs) =>
+      (!transparent(cs.backgroundColor) && cs.backgroundColor !== backdrop(el.parentElement)) ||
+      cs.backgroundImage !== 'none' || cs.boxShadow !== 'none' ||
       ['Top', 'Right', 'Bottom', 'Left'].some((s) => px(cs[`border${s}Width`]) > 0 && cs[`border${s}Style`] !== 'none' && !transparent(cs[`border${s}Color`]));
 
     const idCount = {};
@@ -118,12 +134,13 @@ window.__le = {
     const leafInfo = (el, tag, cs) => {
       if (MEDIA.has(tag) || INPUT.has(tag)) return { kind: tag };
       let media = false, bigMedia = false, innerClickable = false;
+      const textish = TEXTISH.has(tag);
       for (const d of el.querySelectorAll('*')) {
         const dcs = getComputedStyle(d);
         if (dcs.display === 'none') continue;
         const r = rectOf(d);
         if (r.w < 4 || r.h < 4) continue;
-        if (BLOCKISH.test(dcs.display) && !d.closest('svg')) return null;
+        if (BLOCKISH.test(dcs.display) && !d.closest('svg') && !(textish && PHRASING.has(d.localName))) return null;
         if (INTERACTIVE.has(d.localName) || d.getAttribute('role') === 'button') innerClickable = true;
         if (MEDIA.has(d.localName) || INPUT.has(d.localName)) {
           media = true;
@@ -175,7 +192,7 @@ window.__le = {
         kind: leaf && leaf.kind,
         ownText,
         heading,
-        visual: visual(cs),
+        visual: visual(el, cs),
         bgImage: cs.backgroundImage.includes('url('),
         fixed: cs.position === 'fixed',
         href: tag === 'a' && el.hasAttribute('href'),

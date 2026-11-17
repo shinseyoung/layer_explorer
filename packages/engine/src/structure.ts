@@ -113,10 +113,10 @@ const near = (a: number, b: number) => Math.abs(a - b) <= 4;
 const sameBox = (a: Box, b: Box) => near(a.x, b.x) && near(a.y, b.y) && near(a.w, b.w) && near(a.h, b.h);
 
 // 3단계: 접기
-// 감싸기만 하는 요소: 직접 텍스트·시각 효과·시맨틱 단서 없음. 자식 2개 이상인 flex/grid는 레이아웃 정보라 남김
+// 감싸기만 하는 요소: 직접 텍스트·시각 효과·시맨틱 단서 없음
 const passable = (t: T) => {
   const r = t.raw;
-  return !!r && !r.leaf && !r.visual && !r.ownText && !t.hint && !((r.style.flex || r.style.grid) && t.children.length > 1);
+  return !!r && !r.leaf && !r.visual && !r.ownText && !t.hint;
 };
 
 function fold(n: T): T[] {
@@ -131,23 +131,42 @@ function fold(n: T): T[] {
   // 큰 구역(랜드마크, 거의 전체 폭의 시각 블록)만 감싼 래퍼 (#wrap, #container). 형제 일부를 묶는 요소는 의미 있는 묶음이라 남김
   const bigBlock = (k: T) => (k.hint && LANDMARK.has(k.hint)) || (k.raw?.visual && !isLeaf(k) && k.box.w >= n.box.w * 0.9);
   if (passable(n) && n.children.every(bigBlock)) return lift(n, n.children);
+  // 페이지 루트: 고정 요소(메뉴바 등)를 빼면 하나만 남는 래퍼는 페이지 자체라서 풂
+  const flow = n.children.filter((k) => !k.raw?.fixed);
+  if (!n.raw && flow.length === 1 && !isLeaf(flow[0])) {
+    n.children = n.children.flatMap((k) => (k === flow[0] ? lift(k, k.children) : [k]));
+  }
+  // 페이지 높이의 90% 이상을 덮는 본문 래퍼도 페이지 자체 (머리·꼬리 역할이 붙은 건 제외)
+  const pageWrapper = (k: T) => !isLeaf(k) && k.box.h >= n.box.h * 0.9 && !['header', 'footer', 'nav', 'overlay'].includes(k.hint ?? '');
+  while (!n.raw && n.children.some(pageWrapper)) {
+    n.children = n.children.flatMap((k) => (pageWrapper(k) ? lift(k, k.children) : [k]));
+  }
   // 자식이 하나면 둘 중 하나는 군더더기
   while (n.children.length === 1) {
     const c = n.children[0];
     if (passable(n)) return lift(n, [c]);
     if (isLeaf(c)) {
-      if (r.visual) break;
+      if (r.visual) {
+        // 내용에 딱 맞는 꾸민 틀 하나 + 잎 하나 (배지, 동그란 로고 틀) → 틀의 박스·모양을 입힌 잎 하나
+        const tight = n.box.w <= c.box.w * 2 + 40 && n.box.h <= c.box.h * 2 + 40;
+        if (!n.raw || !tight || (n.hint && LANDMARK.has(n.hint))) break;
+        c.box = n.box;
+        c.raw = { ...c.raw!, visual: true, style: { ...n.raw.style, font: c.raw!.style.font, color: c.raw!.style.color } };
+      }
       return lift(n, [c]); // <li><a>메뉴</a></li> → 링크
     }
-    if (passable(c)) { n.children = lift(c, c.children); continue; }
-    if (!sameBox(n.box, c.box)) break;
-    if (!r.visual) { // 박스가 같은 두 겹: 시각 효과 없는 부모를 접고 시맨틱 단서는 자식에게
-      c.hint = stronger(c.hint, n.hint);
-      return lift(n, [c]);
+    if (sameBox(n.box, c.box) && n.raw) {
+      // 같은 박스 두 겹 → 하나로. 안쪽(flex 등 레이아웃 정보)을 남기되, 시각 효과가 바깥에만 있으면 바깥을 남김
+      if (!r.visual || c.raw!.visual) {
+        c.hint = stronger(c.hint, n.hint);
+        return lift(n, [c]);
+      }
+      n.hint = stronger(n.hint, c.hint);
+      n.children = lift(c, c.children);
+      continue;
     }
-    if (c.raw!.visual) break;
-    n.hint = stronger(n.hint, c.hint);
-    n.children = lift(c, c.children);
+    if (passable(c)) { n.children = lift(c, c.children); continue; } // 의미 있는 부모 안의 감싸기 자식
+    break;
   }
   return [n];
 }
@@ -173,17 +192,17 @@ function assignRoles(root: T, page: { w: number; h: number }) {
   top.forEach((t, i) => {
     if (isLeaf(t) || t.hint) return;
     if (!has('header') && i === 0 && t.box.y <= 5 && wide(t) && t.box.h <= 300) t.role = 'header';
-    else if (!has('footer') && t === lastFlow && t.box.y + t.box.h >= page.h - 5 && wide(t)) t.role = 'footer';
+    else if (!has('footer') && t === lastFlow && t.box.y + t.box.h >= page.h - 5 && wide(t) && t.box.h <= VIEWPORT.h * 2) t.role = 'footer';
     else if (!has('hero') && i > 0 && top[i - 1].role === 'header' && looksLikeHero(t)) t.role = 'hero';
     else if (t.role === 'group') t.role = 'section';
   });
-  // 같은 큰 역할 안에 또 나오면 group으로 (header 안의 header-top 등)
-  const demote = (t: T, seen: Set<Role>) => {
-    if (seen.has(t.role) && ['header', 'footer', 'hero', 'overlay'].includes(t.role)) t.role = 'group';
-    const next = new Set(seen).add(t.role);
-    t.children.forEach((c) => demote(c, next));
+  // 헤더·푸터·메인 배너는 페이지 바로 아래에서만 (카드 안 <footer> 등은 group). 팝업 안의 팝업도 group
+  const demote = (t: T, inOverlay: boolean) => {
+    if (t !== root && !top.includes(t) && ['header', 'footer', 'hero'].includes(t.role)) t.role = 'group';
+    if (inOverlay && t.role === 'overlay') t.role = 'group';
+    t.children.forEach((c) => demote(c, inOverlay || t.role === 'overlay'));
   };
-  demote(root, new Set());
+  demote(root, false);
 }
 
 function looksLikeHero(t: T) {
@@ -302,7 +321,10 @@ const ROLE_LABEL: Record<Role, string> = {
   card: '카드', footer: '푸터', overlay: '팝업', text: '글', image: '이미지', button: '버튼', link: '링크',
   form: '입력 폼', input: '입력칸', group: '묶음',
 };
-const clip = (s: string, n = 40) => (s.length > n ? s.slice(0, n - 1) + '…' : s);
+const clip = (s: string, n = 40) => {
+  s = s.replace(/\s+/g, ' ').trim();
+  return s.length > n ? s.slice(0, n - 1) + '…' : s;
+};
 
 function titleIn(t: T): string | undefined {
   let best: T | undefined;
@@ -324,7 +346,7 @@ function ruleName(t: T, count: (role: Role) => number): string {
     if (t.role === 'text') return clip(r.text ?? '');
     return clip(r.text || r.alt || L);
   }
-  if (t.role === 'image') return r?.alt || L;
+  if (t.role === 'image') return clip(r?.alt || L);
   if (t.role === 'list') {
     const item = t.children[0];
     return `${ROLE_LABEL[item?.role ?? 'item']} 목록`;

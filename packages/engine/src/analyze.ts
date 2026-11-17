@@ -14,7 +14,13 @@ export const normalizeUrl = (url: string) => (/^[a-z]+:/i.test(url) ? url : `htt
 
 export function slugOf(url: string) {
   const u = new URL(url);
-  const s = (u.hostname.replace(/^www\./, '') + u.pathname).toLowerCase();
+  let path = u.pathname;
+  try {
+    path = decodeURIComponent(path);
+  } catch {
+    // 깨진 인코딩은 그대로
+  }
+  const s = (u.hostname.replace(/^www\./, '') + path).toLowerCase();
   return s.replace(/[^a-z0-9가-힣]+/g, '-').replace(/^-+|-+$/g, '') || 'site';
 }
 
