@@ -1,0 +1,15 @@
+{
+  "name": "@layer/dev-server",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx src/main.ts",
+    "test": "tsx --test test/*.test.ts",
+    "typecheck": "tsc -p ."
+  },
+  "dependencies": {
+    "@layer/engine": "workspace:*",
+    "@layer/schema": "workspace:*"
+  }
+}

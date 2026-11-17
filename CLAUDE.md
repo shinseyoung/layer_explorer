@@ -9,3 +9,5 @@
 - `scene.json` 형식은 `packages/schema`가 유일한 기준. 바꾸면 engine·viewer 둘 다 맞출 것.
 - 사용자는 한국어로 소통. 설명은 쉬운 한국어로.
 - 커밋은 사용자가 요청할 때만.
+- 명령: `pnpm analyze <url> [--no-ai]` → `sites/<slug>/`, `pnpm dev:server` → http://localhost:4400 (`POST /analyze` NDJSON 스트림, `GET /sites/...`), `pnpm test`.
+- 뷰어 개발용 예시: `sites/_fixture/scene.json` + `shot.webp`. AI 이름은 `claude` CLI 로그인 필요(없으면 규칙 이름).
