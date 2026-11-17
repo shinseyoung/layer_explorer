@@ -19,9 +19,9 @@
    "parent": null,
    "children": [
     "n1",
-    "n11",
-    "n16",
-    "n43"
+    "n12",
+    "n18",
+    "n45"
    ],
    "depth": 0,
    "role": "page",
@@ -69,8 +69,7 @@
    "children": [
     "n2",
     "n3",
-    "n9",
-    "n10"
+    "n9"
    ],
    "depth": 1,
    "role": "header",
@@ -507,8 +506,65 @@
   {
    "id": "n9",
    "parent": "n1",
-   "children": [],
+   "children": [
+    "n10",
+    "n11"
+   ],
    "depth": 2,
+   "role": "group",
+   "name": "검색·로그인",
+   "nameBy": "ai",
+   "box": {
+    "x": 1063,
+    "y": 20,
+    "w": 317,
+    "h": 40
+   },
+   "dom": {
+    "tag": "div",
+    "classes": [
+     "util"
+    ],
+    "selector": "#header > div",
+    "folded": []
+   },
+   "style": {
+    "display": "flex",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "flex": {
+     "dir": "row",
+     "justify": "normal",
+     "align": "center",
+     "gap": 12,
+     "wrap": false
+    }
+   },
+   "desc": "검색창과 로그인 버튼"
+  },
+  {
+   "id": "n10",
+   "parent": "n9",
+   "children": [],
+   "depth": 3,
    "role": "input",
    "name": "검색어를 입력하세요",
    "nameBy": "rule",
@@ -522,9 +578,7 @@
     "tag": "input",
     "classes": [],
     "selector": "#header > div > input",
-    "folded": [
-     "div.util"
-    ]
+    "folded": []
    },
    "style": {
     "display": "block",
@@ -553,10 +607,10 @@
    }
   },
   {
-   "id": "n10",
-   "parent": "n1",
+   "id": "n11",
+   "parent": "n9",
    "children": [],
-   "depth": 2,
+   "depth": 3,
    "role": "button",
    "name": "로그인",
    "nameBy": "rule",
@@ -572,9 +626,7 @@
      "btn"
     ],
     "selector": "#header > div > a",
-    "folded": [
-     "div.util"
-    ]
+    "folded": []
    },
    "style": {
     "display": "block",
@@ -610,13 +662,11 @@
    }
   },
   {
-   "id": "n11",
+   "id": "n12",
    "parent": "n0",
    "children": [
-    "n12",
     "n13",
-    "n14",
-    "n15"
+    "n17"
    ],
    "depth": 1,
    "role": "hero",
@@ -673,10 +723,61 @@
    "desc": "첫 화면을 채우는 큰 배너. 할인 문구, 버튼, 코트 사진"
   },
   {
-   "id": "n12",
-   "parent": "n11",
-   "children": [],
+   "id": "n13",
+   "parent": "n12",
+   "children": [
+    "n14",
+    "n15",
+    "n16"
+   ],
    "depth": 2,
+   "role": "group",
+   "name": "배너 문구",
+   "nameBy": "ai",
+   "box": {
+    "x": 120,
+    "y": 214,
+    "w": 323,
+    "h": 252
+   },
+   "dom": {
+    "tag": "div",
+    "classes": [
+     "txt"
+    ],
+    "selector": "#container > section:nth-of-type(1) > div",
+    "folded": []
+   },
+   "style": {
+    "display": "block",
+    "position": "static",
+    "zIndex": "auto",
+    "margin": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "padding": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "border": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "desc": "큰 제목, 설명, 바로가기 버튼"
+  },
+  {
+   "id": "n14",
+   "parent": "n13",
+   "children": [],
+   "depth": 3,
    "role": "text",
    "name": "겨울 신상품 최대 30% 할인",
    "nameBy": "rule",
@@ -690,9 +791,7 @@
     "tag": "h1",
     "classes": [],
     "selector": "#container > section:nth-of-type(1) > div > h1",
-    "folded": [
-     "div.txt"
-    ]
+    "folded": []
    },
    "style": {
     "display": "block",
@@ -726,10 +825,10 @@
    }
   },
   {
-   "id": "n13",
-   "parent": "n11",
+   "id": "n15",
+   "parent": "n13",
    "children": [],
-   "depth": 2,
+   "depth": 3,
    "role": "text",
    "name": "따뜻한 니트와 코트를 지금 만나보세요.",
    "nameBy": "rule",
@@ -743,9 +842,7 @@
     "tag": "p",
     "classes": [],
     "selector": "#container > section:nth-of-type(1) > div > p",
-    "folded": [
-     "div.txt"
-    ]
+    "folded": []
    },
    "style": {
     "display": "block",
@@ -779,10 +876,10 @@
    }
   },
   {
-   "id": "n14",
-   "parent": "n11",
+   "id": "n16",
+   "parent": "n13",
    "children": [],
-   "depth": 2,
+   "depth": 3,
    "role": "button",
    "name": "지금 보기",
    "nameBy": "rule",
@@ -798,9 +895,7 @@
      "btn"
     ],
     "selector": "#container > section:nth-of-type(1) > div > a",
-    "folded": [
-     "div.txt"
-    ]
+    "folded": []
    },
    "style": {
     "display": "inline-block",
@@ -836,8 +931,8 @@
    }
   },
   {
-   "id": "n15",
-   "parent": "n11",
+   "id": "n17",
+   "parent": "n12",
    "children": [],
    "depth": 2,
    "role": "image",
@@ -881,11 +976,11 @@
    }
   },
   {
-   "id": "n16",
+   "id": "n18",
    "parent": "n0",
    "children": [
-    "n17",
-    "n18"
+    "n19",
+    "n20"
    ],
    "depth": 1,
    "role": "section",
@@ -934,8 +1029,8 @@
    "desc": "새로 들어온 상품을 카드로 보여주는 구역"
   },
   {
-   "id": "n17",
-   "parent": "n16",
+   "id": "n19",
+   "parent": "n18",
    "children": [],
    "depth": 2,
    "role": "text",
@@ -987,15 +1082,15 @@
    }
   },
   {
-   "id": "n18",
-   "parent": "n16",
+   "id": "n20",
+   "parent": "n18",
    "children": [
-    "n19",
-    "n23",
-    "n27",
-    "n31",
-    "n35",
-    "n39"
+    "n21",
+    "n25",
+    "n29",
+    "n33",
+    "n37",
+    "n41"
    ],
    "depth": 2,
    "role": "list",
@@ -1049,12 +1144,12 @@
    "desc": "3열 격자로 놓인 상품 카드 6개"
   },
   {
-   "id": "n19",
-   "parent": "n18",
+   "id": "n21",
+   "parent": "n20",
    "children": [
-    "n20",
-    "n21",
-    "n22"
+    "n22",
+    "n23",
+    "n24"
    ],
    "depth": 3,
    "role": "card",
@@ -1101,8 +1196,8 @@
    }
   },
   {
-   "id": "n20",
-   "parent": "n19",
+   "id": "n22",
+   "parent": "n21",
    "children": [],
    "depth": 4,
    "role": "image",
@@ -1148,8 +1243,8 @@
    }
   },
   {
-   "id": "n21",
-   "parent": "n19",
+   "id": "n23",
+   "parent": "n21",
    "children": [],
    "depth": 4,
    "role": "text",
@@ -1203,8 +1298,8 @@
    }
   },
   {
-   "id": "n22",
-   "parent": "n19",
+   "id": "n24",
+   "parent": "n21",
    "children": [],
    "depth": 4,
    "role": "text",
@@ -1258,12 +1353,12 @@
    }
   },
   {
-   "id": "n23",
-   "parent": "n18",
+   "id": "n25",
+   "parent": "n20",
    "children": [
-    "n24",
-    "n25",
-    "n26"
+    "n26",
+    "n27",
+    "n28"
    ],
    "depth": 3,
    "role": "card",
@@ -1310,8 +1405,8 @@
    }
   },
   {
-   "id": "n24",
-   "parent": "n23",
+   "id": "n26",
+   "parent": "n25",
    "children": [],
    "depth": 4,
    "role": "image",
@@ -1357,8 +1452,8 @@
    }
   },
   {
-   "id": "n25",
-   "parent": "n23",
+   "id": "n27",
+   "parent": "n25",
    "children": [],
    "depth": 4,
    "role": "text",
@@ -1412,8 +1507,8 @@
    }
   },
   {
-   "id": "n26",
-   "parent": "n23",
+   "id": "n28",
+   "parent": "n25",
    "children": [],
    "depth": 4,
    "role": "text",
@@ -1467,12 +1562,12 @@
    }
   },
   {
-   "id": "n27",
-   "parent": "n18",
+   "id": "n29",
+   "parent": "n20",
    "children": [
-    "n28",
-    "n29",
-    "n30"
+    "n30",
+    "n31",
+    "n32"
    ],
    "depth": 3,
    "role": "card",
@@ -1519,8 +1614,8 @@
    }
   },
   {
-   "id": "n28",
-   "parent": "n27",
+   "id": "n30",
+   "parent": "n29",
    "children": [],
    "depth": 4,
    "role": "image",
@@ -1566,8 +1661,8 @@
    }
   },
   {
-   "id": "n29",
-   "parent": "n27",
+   "id": "n31",
+   "parent": "n29",
    "children": [],
    "depth": 4,
    "role": "text",
@@ -1621,8 +1716,8 @@
    }
   },
   {
-   "id": "n30",
-   "parent": "n27",
+   "id": "n32",
+   "parent": "n29",
    "children": [],
    "depth": 4,
    "role": "text",
@@ -1676,12 +1771,12 @@
    }
   },
   {
-   "id": "n31",
-   "parent": "n18",
+   "id": "n33",
+   "parent": "n20",
    "children": [
-    "n32",
-    "n33",
-    "n34"
+    "n34",
+    "n35",
+    "n36"
    ],
    "depth": 3,
    "role": "card",
@@ -1728,8 +1823,8 @@
    }
   },
   {
-   "id": "n32",
-   "parent": "n31",
+   "id": "n34",
+   "parent": "n33",
    "children": [],
    "depth": 4,
    "role": "image",
@@ -1775,8 +1870,8 @@
    }
   },
   {
-   "id": "n33",
-   "parent": "n31",
+   "id": "n35",
+   "parent": "n33",
    "children": [],
    "depth": 4,
    "role": "text",
@@ -1830,8 +1925,8 @@
    }
   },
   {
-   "id": "n34",
-   "parent": "n31",
+   "id": "n36",
+   "parent": "n33",
    "children": [],
    "depth": 4,
    "role": "text",
@@ -1885,12 +1980,12 @@
    }
   },
   {
-   "id": "n35",
-   "parent": "n18",
+   "id": "n37",
+   "parent": "n20",
    "children": [
-    "n36",
-    "n37",
-    "n38"
+    "n38",
+    "n39",
+    "n40"
    ],
    "depth": 3,
    "role": "card",
@@ -1937,8 +2032,8 @@
    }
   },
   {
-   "id": "n36",
-   "parent": "n35",
+   "id": "n38",
+   "parent": "n37",
    "children": [],
    "depth": 4,
    "role": "image",
@@ -1984,8 +2079,8 @@
    }
   },
   {
-   "id": "n37",
-   "parent": "n35",
+   "id": "n39",
+   "parent": "n37",
    "children": [],
    "depth": 4,
    "role": "text",
@@ -2039,8 +2134,8 @@
    }
   },
   {
-   "id": "n38",
-   "parent": "n35",
+   "id": "n40",
+   "parent": "n37",
    "children": [],
    "depth": 4,
    "role": "text",
@@ -2094,12 +2189,12 @@
    }
   },
   {
-   "id": "n39",
-   "parent": "n18",
+   "id": "n41",
+   "parent": "n20",
    "children": [
-    "n40",
-    "n41",
-    "n42"
+    "n42",
+    "n43",
+    "n44"
    ],
    "depth": 3,
    "role": "card",
@@ -2146,8 +2241,8 @@
    }
   },
   {
-   "id": "n40",
-   "parent": "n39",
+   "id": "n42",
+   "parent": "n41",
    "children": [],
    "depth": 4,
    "role": "image",
@@ -2193,8 +2288,8 @@
    }
   },
   {
-   "id": "n41",
-   "parent": "n39",
+   "id": "n43",
+   "parent": "n41",
    "children": [],
    "depth": 4,
    "role": "text",
@@ -2248,8 +2343,8 @@
    }
   },
   {
-   "id": "n42",
-   "parent": "n39",
+   "id": "n44",
+   "parent": "n41",
    "children": [],
    "depth": 4,
    "role": "text",
@@ -2303,12 +2398,12 @@
    }
   },
   {
-   "id": "n43",
+   "id": "n45",
    "parent": "n0",
    "children": [
-    "n44",
-    "n49",
-    "n50"
+    "n46",
+    "n51",
+    "n52"
    ],
    "depth": 1,
    "role": "footer",
@@ -2356,13 +2451,13 @@
    "desc": "약관 링크와 사업자 정보가 있는 맨 아래 영역"
   },
   {
-   "id": "n44",
-   "parent": "n43",
+   "id": "n46",
+   "parent": "n45",
    "children": [
-    "n45",
-    "n46",
     "n47",
-    "n48"
+    "n48",
+    "n49",
+    "n50"
    ],
    "depth": 2,
    "role": "list",
@@ -2418,8 +2513,8 @@
    "desc": "회사소개·이용약관 등 안내 페이지 링크"
   },
   {
-   "id": "n45",
-   "parent": "n44",
+   "id": "n47",
+   "parent": "n46",
    "children": [],
    "depth": 3,
    "role": "link",
@@ -2471,8 +2566,8 @@
    }
   },
   {
-   "id": "n46",
-   "parent": "n44",
+   "id": "n48",
+   "parent": "n46",
    "children": [],
    "depth": 3,
    "role": "link",
@@ -2524,8 +2619,8 @@
    }
   },
   {
-   "id": "n47",
-   "parent": "n44",
+   "id": "n49",
+   "parent": "n46",
    "children": [],
    "depth": 3,
    "role": "link",
@@ -2577,8 +2672,8 @@
    }
   },
   {
-   "id": "n48",
-   "parent": "n44",
+   "id": "n50",
+   "parent": "n46",
    "children": [],
    "depth": 3,
    "role": "link",
@@ -2630,8 +2725,8 @@
    }
   },
   {
-   "id": "n49",
-   "parent": "n43",
+   "id": "n51",
+   "parent": "n45",
    "children": [],
    "depth": 2,
    "role": "text",
@@ -2683,8 +2778,8 @@
    }
   },
   {
-   "id": "n50",
-   "parent": "n43",
+   "id": "n52",
+   "parent": "n45",
    "children": [],
    "depth": 2,
    "role": "text",

@@ -1,0 +1,77 @@
+<!doctype html>
+<!-- 한국 사이트 관용어(gnb, visual, swiper, prd, layer_pop) + 숨김 요소 + 애니메이션 정지 + 고정 팝업 -->
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>한글몰</title>
+<style>
+  body { margin: 0; width: 1440px; font-family: "Malgun Gothic", sans-serif; color: #222; }
+  a { color: inherit; text-decoration: none; }
+  h1, h2, p, ul { margin: 0; padding: 0; }
+  ul { list-style: none; }
+  .blind { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  #hd { position: relative; height: 90px; border-bottom: 1px solid #ddd; }
+  #hd .logo { position: absolute; left: 40px; top: 25px; font-size: 28px; }
+  #gnb { position: absolute; left: 400px; top: 32px; }
+  #gnb ul { display: flex; gap: 30px; }
+  .visual { position: relative; height: 480px; overflow: hidden; }
+  .swiper-wrapper { display: flex; width: 4320px; }
+  .swiper-slide { width: 1440px; height: 480px; flex-shrink: 0; }
+  .swiper-slide p { padding: 150px 0 0 120px; font-size: 44px; font-weight: 700; }
+  .sec_prd { padding: 60px 40px; }
+  .sec_prd .tit { margin-bottom: 24px; font-size: 30px; }
+  .prd_list { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .prd_item { border: 1px solid #eee; }
+  .prd_item .img { height: 200px; background: #eee; }
+  .prd_item .badge { display: block; padding: 2px 6px; background: #e33; color: #fff; font-size: 12px; }
+  .prd_item .name { padding: 10px; font-size: 18px; }
+  .prd_item .price { padding: 0 10px 10px; font-weight: 700; }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+  .notice { padding: 20px 40px; animation: fade 1s 30s both; }
+  .foot_area { padding: 30px 40px; background: #f4f4f4; color: #666; }
+  .layer_pop { position: fixed; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, .5); z-index: 100; }
+  .pop_cont { width: 400px; margin: 200px auto 0; padding: 30px; background: #fff; }
+  .pop_cont .pop_tit { margin-bottom: 20px; font-size: 22px; font-weight: 700; }
+</style>
+</head>
+<body>
+<div id="skip"><a href="#c" style="position:absolute;left:-9999px">본문 바로가기</a></div>
+<div id="hd">
+  <h1 class="logo">한글몰</h1>
+  <div id="gnb"><ul>
+    <li><a href="#">브랜드</a></li><li><a href="#">여성</a></li><li><a href="#">남성</a></li>
+    <li><a href="#">키즈</a></li><li><a href="#">뷰티</a></li><li><a href="#">이벤트</a></li>
+  </ul></div>
+  <span class="blind">숨김 텍스트</span>
+</div>
+<div class="visual swiper">
+  <div class="swiper-wrapper">
+    <div class="swiper-slide" style="background:#fde"><p>가을 세일 시작</p></div>
+    <div class="swiper-slide" style="background:#def"><p>신규 회원 쿠폰</p></div>
+    <div class="swiper-slide" style="background:#efd"><p>무료 배송 주간</p></div>
+  </div>
+</div>
+<div class="sec_prd">
+  <h2 class="tit">MD 추천 상품</h2>
+  <ul class="prd_list">
+    <li class="prd_item"><div class="img"></div><p class="name">상품 A</p><p class="price">10,000원</p></li>
+    <li class="prd_item"><div class="img"></div><span class="badge">BEST</span><p class="name">상품 B</p><p class="price">20,000원</p></li>
+    <li class="prd_item"><div class="img"></div><p class="name">상품 C</p><p class="price">30,000원</p></li>
+    <li class="prd_item"><div class="img"></div><p class="name">상품 D</p><p class="price">40,000원</p></li>
+  </ul>
+</div>
+<div style="display:none"><p>안 보이는 공지</p></div>
+<div style="opacity:0"><p>투명한 공지</p></div>
+<div class="notice"><p>공지: 배송 지연 안내</p></div>
+<div class="foot_area">
+  <p>고객센터 1588-0000</p>
+  <p>© 한글몰</p>
+</div>
+<div class="layer_pop">
+  <div class="pop_cont">
+    <p class="pop_tit">오늘의 혜택</p>
+    <button>닫기</button>
+  </div>
+</div>
+</body>
+</html>

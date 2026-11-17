@@ -1,0 +1,50 @@
+<!doctype html>
+<!-- 접기 확인: 겹겹이 싼 div, BEM 클래스, ARIA 역할 -->
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>수프</title>
+<style>
+  body { margin: 0; width: 1440px; font-family: "Malgun Gothic", sans-serif; }
+  a { color: #fff; text-decoration: none; }
+  h2, p { margin: 0; }
+  .site-head { height: 64px; padding: 0 40px; display: flex; align-items: center; justify-content: space-between; background: #222; }
+  .site-head__logo span { color: #fff; font-size: 20px; }
+  .menu-y { display: flex; gap: 20px; }
+  .panel { margin: 40px; padding: 24px; border: 1px solid #ddd; }
+  .panel h2 { margin-bottom: 16px; font-size: 24px; }
+  .row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eee; }
+  .foot { padding: 24px 40px; background: #eee; }
+</style>
+</head>
+<body>
+<div class="app"><div class="app__inner"><div class="layout">
+  <div role="banner" class="site-head">
+    <div class="site-head__logo"><div><span>SOUP</span></div></div>
+    <div role="navigation" class="site-head__menu"><div class="menu-x"><div class="menu-y">
+      <div><div><a href="#">홈</a></div></div>
+      <div><div><a href="#">소개</a></div></div>
+      <div><div><a href="#">서비스</a></div></div>
+      <div><div><a href="#">연락처</a></div></div>
+    </div></div></div>
+  </div>
+  <div class="layout__body"><div class="layout__content">
+    <div class="panel">
+      <div><div><h2>공지사항</h2></div></div>
+      <div class="panel__list">
+        <div class="row"><span>서버 점검 안내</span><span>2026.11.01</span></div>
+        <div class="row"><span>새 기능 출시</span><span>2026.10.20</span></div>
+        <div class="row"><span>이용약관 변경</span><span>2026.10.02</span></div>
+        <div class="row"><span>가을 이벤트 당첨자</span><span>2026.09.15</span></div>
+        <div class="row"><span>추석 배송 안내</span><span>2026.09.01</span></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>자료실</h2>
+      <p>준비 중입니다.</p>
+    </div>
+  </div></div>
+  <div role="contentinfo" class="foot"><div><div><p>© 2026 SOUP</p></div></div></div>
+</div></div></div>
+</body>
+</html>
